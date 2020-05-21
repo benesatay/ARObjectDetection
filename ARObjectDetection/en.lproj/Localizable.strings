@@ -1,0 +1,39 @@
+/* 
+  Localizable.strings
+  ARObjectDetection
+
+  Created by Bahadır Enes Atay on 19.05.2020.
+  Copyright © 2020 Bahadır Enes Atay. All rights reserved.
+*/
+
+"Email" = "Email";
+"Password" = "Password";
+"Warning" = "Warning";
+"Email or password can not be null!" = "Email or password can not be null!";
+"Enter your email to top and try again!" = "Enter your email to top and try again!";
+"Reset Password Link was sent to your email!" = "Reset Password Link was sent to your email!";
+"Error" = "Error";
+"Done" = "Done";
+"Success" = "Success";
+"Added" = "Added";
+"Back" = "Back";
+"Name" = "Name";
+"Type" = "Type";
+"Serial No" = "Serial No";
+"Preferred Language" = "Preferred Language";
+"Change Password" = "Change Password";
+"Reset Password" = "Reset Password";
+"Create an Account" = "Create an Account";
+"Sign In" = "Sign In";
+"Sign Out" = "Sign Out";
+"English" = "English";
+"Turkish" = "Turkish";
+"Instruction" = "Instruction";
+"About App" = "About App";
+"About Us" = "About Us";
+"Contact" = "Contact";
+"Help" = "Help";
+"OK" = "OK";
+"Cancel" = "Cancel";
+"Are you sure that you want to sign out?" = "Are you sure that you want to sign out?";
+"You should change the phone language to change the app language!" = "You should change the phone language to change the app language!";

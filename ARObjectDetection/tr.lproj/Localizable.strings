@@ -1,0 +1,38 @@
+/* 
+  Localizable.strings
+  ARObjectDetection
+
+  Created by Bahadır Enes Atay on 19.05.2020.
+  Copyright © 2020 Bahadır Enes Atay. All rights reserved.
+*/
+"Email" = "E-posta";
+"Password" = "Şifre";
+"Warning" = "Uyarı";
+"Email or password can not be null!" = "Mail/şifre boş olamaz!";
+"Enter your email to top and try again!" = "E-posta adresini girip tekrar deneyin!";
+"Reset Password Link was sent to your email!" = "Şifre sıfırlama linki E-postanıza gönderildi!";
+"Error" = "Hata";
+"Done" = "Bitti";
+"Success" = "Başarılı";
+"Added" = "Eklendi";
+"Back" = "Geri";
+"Name" = "İsim";
+"Type" = "Tip";
+"Serial No" = "Seri No";
+"Preferred Language" = "Tercih Edilen Dil";
+"Change Password" = "Şifre Değiştir";
+"Reset Password" = "Şifre Sıfırla";
+"Create an Account" = "Hesap Oluştur";
+"Sign In" = "Giriş";
+"Sign Out" = "Çıkış";
+"English" = "İngilizce";
+"Turkish" = "Türkçe";
+"Instruction" = "Yönerge";
+"About App" = "Uygulama Hakkında";
+"About Us" = "Hakkımızda";
+"Contact" = "İletişim";
+"Help" = "Yardım";
+"OK" = "Tamam";
+"Cancel" = "İptal";
+"Are you sure that you want to sign out?" = "Çıkış yapmak istediğinizden emin misiniz?";
+"You should change the phone language to change the app language!" = "Uygulama dilini değiştirmek için telefon dilini değiştirmelisiniz!";

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MachineListViewController" customModule="ARObjectDetection" customModuleProvider="target">
+            <connections>
+                <outlet property="activityIndicator" destination="Fbx-3t-j1j" id="HRD-0M-cvm"/>
+                <outlet property="machineInfoCollectionView" destination="StF-Zn-Tfy" id="mxb-qd-ltI"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="StF-Zn-Tfy">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="tUF-Jw-nig">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="10" maxX="0.0" maxY="10"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Fbx-3t-j1j">
+                    <rect key="frame" x="182" y="423" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="UNG-4W-XlF"/>
+                        <constraint firstAttribute="height" constant="50" id="hL0-P8-ZDQ"/>
+                    </constraints>
+                </activityIndicatorView>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstItem="StF-Zn-Tfy" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="6OZ-BB-keQ"/>
+                <constraint firstItem="StF-Zn-Tfy" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="QXN-zM-bCq"/>
+                <constraint firstItem="StF-Zn-Tfy" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="TEE-To-f6y"/>
+                <constraint firstItem="Fbx-3t-j1j" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="aop-wU-OUY"/>
+                <constraint firstItem="Fbx-3t-j1j" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" constant="-5" id="opk-F1-Ner"/>
+                <constraint firstItem="StF-Zn-Tfy" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="vCw-Kp-NKu"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="140.57971014492756" y="117.85714285714285"/>
+        </view>
+    </objects>
+</document>
