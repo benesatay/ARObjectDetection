@@ -10,7 +10,9 @@ import UIKit
 
 class MachineListViewController: UIViewController {
     let firebaseManager = FirebaseManager()
-    var machineArray = [MachineModel]()
+    //var machineArray = [MachineModel]()
+    
+    private var machineListViewModel: MachineListViewModel!
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var machineInfoCollectionView: UICollectionView!
@@ -29,10 +31,11 @@ class MachineListViewController: UIViewController {
     }
     
     func setMachineData() {
-        self.machineArray.removeAll()
+       // self.machineArray.removeAll()
         firebaseManager.getMachineData(onSuccess: { machineinfo in
             DispatchQueue.main.async {
-                self.machineArray = machineinfo
+                self.machineListViewModel = MachineListViewModel(machineList: machineinfo)
+               // self.machineArray = machineinfo
                 self.machineInfoCollectionView.reloadData()
                 self.activityIndicator.isHidden = true
             }
@@ -44,12 +47,14 @@ class MachineListViewController: UIViewController {
         cell.nameHeader.text = NSLocalizedString("Name", comment: "")
         cell.serialNoHeader.text = NSLocalizedString("Serial No", comment: "")
         
-        cell.typeLabel.text = machineArray[indexPath.row].type
-        cell.nameLabel.text = machineArray[indexPath.row].name
-        cell.serialNoLabel.text = machineArray[indexPath.row].serialNo
+        let machineViewModel = self.machineListViewModel.machineAtIndex(indexPath.row)
+        
+        cell.typeLabel.text = machineViewModel.type
+        cell.nameLabel.text = machineViewModel.name
+        cell.serialNoLabel.text = machineViewModel.serialNo
         
         let destination = MachineImageViewController(nibName: "MachineImageViewController", bundle: nil)
-        destination.imageData = machineArray[indexPath.row]
+        destination.machineImageData = machineViewModel
         let viewFrame = CGRect(x: 0, y: 0, width: cell.subView.frame.width, height: cell.subView.frame.height)
         destination.view.frame = viewFrame
         cell.subView.addSubview(destination.view)
@@ -65,7 +70,7 @@ extension MachineListViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return machineArray.count
+        return self.machineListViewModel == nil ? 0 : self.machineListViewModel.numberOfRowsInSection()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

@@ -12,8 +12,8 @@ import UIKit
 class MachineImageViewController: UIViewController {
     
     let firebaseManager = FirebaseManager()
-    var imageData: MachineModel!
 
+    var machineImageData: MachineViewModel!
     
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet weak var pageControl: UIPageControl!
@@ -30,13 +30,14 @@ class MachineImageViewController: UIViewController {
     }
     
     func setUrlListCount() -> Int {
-        guard let urlList = imageData.imageUrlList else { return 0 }
+        let urlList = machineImageData.imageUrlList
         let urlListCount = urlList.count
         return urlListCount
     }
     
     func setupCell(indexPath: IndexPath, to cell: MachineImageCollectionViewCell) {
-        if let urlList = imageData.imageUrlList, let imageURL = URL(string: urlList[indexPath.row]) {
+        let urlList = machineImageData.imageUrlList
+        if let imageURL = URL(string: urlList[indexPath.row]) {
             firebaseManager.getImage(from: imageURL) { (image, error) in
                 DispatchQueue.main.async {
                     cell.machineImageView.image = image

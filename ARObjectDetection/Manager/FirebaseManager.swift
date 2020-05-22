@@ -41,14 +41,14 @@ class FirebaseManager {
     func writeToFirebase(
         machineFolderName: String,
         imageUrlArray: [String],
-        imageName: String,
+        machineName: String,
         serialNo: String,
         type: String) {
         guard let user = Auth.auth().currentUser else { return }
         let firebaseDatabaseRef = Database.database().reference().child("users/\(user.uid)")
         let values = [
-            "imageUrls": imageUrlArray,
-            "imageName": imageName,
+            "imageUrlList": imageUrlArray,
+            "machineName": machineName,
             "serialNo": serialNo,
             "type": type] as [String : Any]
         firebaseDatabaseRef.child(machineFolderName).setValue(values)
@@ -64,8 +64,8 @@ class FirebaseManager {
                 var machineInfoArray: [MachineModel] = []
                 for machineData in snapshot.children.allObjects as! [DataSnapshot] {
                     if let machineObject = machineData.value as? [String:Any],
-                        let url = machineObject["imageUrls"] as? [NSString],
-                        let name = machineObject["imageName"] as? NSString,
+                        let url = machineObject["imageUrlList"] as? [NSString],
+                        let name = machineObject["machineName"] as? NSString,
                         let type = machineObject["type"] as? NSString,
                         let serialNo = machineObject["serialNo"] as? NSString {
                         let imageUrlArray = url as [String]

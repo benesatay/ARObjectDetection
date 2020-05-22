@@ -15,12 +15,14 @@ class ScanViewController: UIViewController {
     var machineName: String = ""
     var firebaseManager = FirebaseManager()
     
-    var imageData: MachineModel!
+    private var machineListViewModel: MachineListViewModel!
+    var machineImageData: MachineViewModel!
     
     var imageArray: [UIImage] = []
-    var machineArray = [MachineModel]()
+    //var machineArray = [MachineModel]()
     var ARImageArray: [ARReferenceImage] = []
     var machineNameArray: [String] = []
+    
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
@@ -28,7 +30,7 @@ class ScanViewController: UIViewController {
         super.viewDidLoad()
         
         self.navigationItem.hidesBackButton = true
-
+        
         navigationController?.isNavigationBarHidden = true
         // Set the view's delegate
         sceneView.delegate = self
@@ -98,23 +100,29 @@ extension ScanViewController {
 
 extension ScanViewController {
     func setMachineDataToScan(onSuccess: @escaping () -> Void) {
-        self.machineArray.removeAll()
+        //self.machineArray.removeAll()
         firebaseManager.getMachineData(onSuccess: { machineinfo in
             DispatchQueue.main.async {
-                self.machineArray = machineinfo
+                self.machineListViewModel = MachineListViewModel(machineList: machineinfo)
+                //  self.machineArray = machineinfo
                 onSuccess()
             }
         })
     }
     
     func setMachineImageToARImageList() {
-        for index in 0..<machineArray.count {
-            imageData = machineArray[index]
+        for index in 0..<machineListViewModel.numberOfRowsInSection() {
+            let machineViewModel = self.machineListViewModel.machineAtIndex(index)
+            machineImageData = machineViewModel
         }
+        //        for index in 0..<machineArray.count {
+        //            machineImageData = machineArray[index]
+        //        }
         ARImageArray.removeAll()
-        guard let urlListCount = imageData.imageUrlList?.count else { return }
+        let urlListCount = machineImageData.imageUrlList.count
         for index in 0..<urlListCount {
-            if let urlList = imageData.imageUrlList, let imageURL = URL(string: urlList[index]) {
+            let urlList = machineImageData.imageUrlList
+            if let imageURL = URL(string: urlList[index]) {
                 firebaseManager.getImage(from: imageURL) { (image, error) in
                     DispatchQueue.main.async {
                         guard let imageFromBundle = image,

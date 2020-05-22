@@ -11,9 +11,10 @@ import UIKit
 class ObjectDetailViewController: UIViewController {
     
     let firebaseManager = FirebaseManager()
-    var machineArray = [MachineModel]()
-    var imageData: MachineModel!
+    // var machineArray = [MachineModel]()
     var objectName: String = ""
+    var machineImageData: MachineViewModel!
+    private var machineListViewModel: MachineListViewModel!
     
     @IBOutlet weak var typeHeader: UILabel!
     @IBOutlet weak var nameHeader: UILabel!
@@ -34,8 +35,10 @@ class ObjectDetailViewController: UIViewController {
         //pageControl.numberOfPages = setUrlListCount()
         
         setMachineDataToDetail(onSuccess: {
-            for index in 0..<self.machineArray.count {
-                self.imageData = self.machineArray[index]
+            
+            for index in 0..<self.machineListViewModel.machineList.count {
+                let machineViewModel = self.machineListViewModel.machineAtIndex(index)
+                self.machineImageData = machineViewModel
             }
             print("details were downloaded")
         })
@@ -50,10 +53,9 @@ class ObjectDetailViewController: UIViewController {
     }
     
     func setMachineDataToDetail(onSuccess: @escaping () -> Void) {
-        self.machineArray.removeAll()
         firebaseManager.getMachineData(onSuccess: { machineinfo in
             DispatchQueue.main.async {
-                self.machineArray = machineinfo
+                self.machineListViewModel = MachineListViewModel(machineList: machineinfo)
                 self.imageCollectionView.reloadData()
                 onSuccess()
             }
@@ -61,14 +63,14 @@ class ObjectDetailViewController: UIViewController {
     }
     
     func setUrlListCount() -> Int {
-        guard let urlList = imageData.imageUrlList else { return 0 }
+        let urlList = machineImageData.imageUrlList
         let urlListCount = urlList.count
         return urlListCount
     }
     
     func setupCell(indexPath: IndexPath, to cell: MachineImageCollectionViewCell) {
-
-        if let urlList = imageData.imageUrlList, let imageURL = URL(string: urlList[indexPath.row]) {
+        let urlList = machineImageData.imageUrlList
+        if let imageURL = URL(string: urlList[indexPath.row]) {
             firebaseManager.getImage(from: imageURL) { (image, error) in
                 DispatchQueue.main.async {
                     cell.machineImageView.image = image

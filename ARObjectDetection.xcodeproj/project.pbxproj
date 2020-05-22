@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0E05FBBBA327809D3BC3DF8B /* Pods_ARObjectDetection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A09BFD25AEE69D178E95085F /* Pods_ARObjectDetection.framework */; };
+		4A1C91D0247839FA00E5E295 /* MachineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C91CF247839FA00E5E295 /* MachineViewModel.swift */; };
 		4A360CE9246B30AB00C1679E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A360CE8246B30AB00C1679E /* AppDelegate.swift */; };
 		4A360CEB246B30AB00C1679E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A360CEA246B30AB00C1679E /* SceneDelegate.swift */; };
 		4A360CF2246B30AD00C1679E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A360CF1246B30AD00C1679E /* Assets.xcassets */; };
@@ -46,6 +47,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4A1C91CF247839FA00E5E295 /* MachineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineViewModel.swift; sourceTree = "<group>"; };
 		4A360CE5246B30AB00C1679E /* ARObjectDetection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARObjectDetection.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A360CE8246B30AB00C1679E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4A360CEA246B30AB00C1679E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +123,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		4A1C91CE247839ED00E5E295 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4A1C91CF247839FA00E5E295 /* MachineViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		4A360CDC246B30AB00C1679E = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +155,7 @@
 				4AA5E5B5246ED6E400580E0F /* Manager */,
 				4AA5E5B4246ED6DA00580E0F /* Model */,
 				4A1C91CD247838FE00E5E295 /* View */,
+				4A1C91CE247839ED00E5E295 /* ViewModel */,
 				4A663CD22472F7A100062405 /* Extensions */,
 				4A360CE8246B30AB00C1679E /* AppDelegate.swift */,
 				4A360CEA246B30AB00C1679E /* SceneDelegate.swift */,
@@ -455,6 +466,7 @@
 				4A50DA6D2476C980001C2446 /* String + Extensions.swift in Sources */,
 				4A6353682472F36100470795 /* ProfileViewController.swift in Sources */,
 				4AE7D5552470320300974772 /* MachineImageCollectionViewCell.swift in Sources */,
+				4A1C91D0247839FA00E5E295 /* MachineViewModel.swift in Sources */,
 				4A50769D246DC04C00957CAA /* CreatingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
