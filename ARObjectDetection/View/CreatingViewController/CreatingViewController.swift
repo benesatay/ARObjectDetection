@@ -12,7 +12,7 @@ class CreatingViewController: UIViewController {
     
     var firebaseManager = FirebaseManager()
     private var machineListViewModel: MachineListViewModel!
-
+    
     var takenPhotoList : Array<UIImage> = []
     var imageUrlArray = [String]()
     
@@ -25,7 +25,7 @@ class CreatingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.isHidden = true
-
+        
         nameTextField.delegate = self
         typeTextField.delegate = self
         serialNoTextField.delegate = self
@@ -74,35 +74,39 @@ class CreatingViewController: UIViewController {
         let serialNo = serialNoTextField.text ?? ""
         let type = typeTextField.text ?? ""
         self.imageUrlArray.removeAll()
-        for machine in self.machineListViewModel.machineList {
-            activityIndicator.isHidden = false
-            if machineName == machine.name {
-                setAlertWithAction(title: "Warning", message: "This name was used before, please enter a different name!")
+        
+        
+        activityIndicator.isHidden = false
+        if machineListViewModel.machineList.contains(where: { $0.name == machineName }) {
+            setAlertWithAction(title: "Warning", message: "This name was used before, please enter a different name!")
             activityIndicator.isHidden = true
-            } else {
-                activityIndicator.isHidden = false
-                for (index, image) in takenPhotoList.enumerated() {
-                    let imageName = machineFolderName + "\(index)"
-                    firebaseManager.writeToStorageMachineImage(
-                        image: image,
-                        machineFolderName: machineFolderName,
-                        imageName: imageName,
-                        onSuccess: { (imageUrl) in
-                            self.imageUrlArray.append(imageUrl)
-                            self.firebaseManager.writeToFirebase(
-                                machineFolderName: machineFolderName,
-                                imageUrlArray: self.imageUrlArray,
-                                machineName: machineName,
-                                serialNo: serialNo,
-                                type: type)
-                            self.setAlertWithoutAction(title: "Success", message: "Added")
-                            self.activityIndicator.isHidden = true
-                    }, onError: { (error) in
-                        self.setAlertWithAction(title: "Error", message: error)
+            
+        } else {
+            activityIndicator.isHidden = false
+            for (index, image) in takenPhotoList.enumerated() {
+                let imageName = machineFolderName + "\(index)"
+                firebaseManager.writeToStorageMachineImage(
+                    image: image,
+                    machineFolderName: machineFolderName,
+                    imageName: imageName,
+                    onSuccess: { (imageUrl) in
+                        self.imageUrlArray.append(imageUrl)
+                        self.firebaseManager.writeToFirebase(
+                            machineFolderName: machineFolderName,
+                            imageUrlArray: self.imageUrlArray,
+                            machineName: machineName,
+                            serialNo: serialNo,
+                            type: type)
+                        self.setAlertWithoutAction(title: "Success", message: "Added")
                         self.activityIndicator.isHidden = true
-                    })
-                }
+                        
+                }, onError: { (error) in
+                    self.setAlertWithAction(title: "Error", message: error)
+                    self.activityIndicator.isHidden = true
+                    
+                })
             }
+            
         }
     }
 }

@@ -16,7 +16,7 @@ class ScanViewController: UIViewController {
     var firebaseManager = FirebaseManager()
     
     private var machineListViewModel: MachineListViewModel!
-    var machineImageData: MachineViewModel!
+    var machineImageData: MachineViewModel?
     
     var imageArray: [UIImage] = []
     //var machineArray = [MachineModel]()
@@ -119,6 +119,7 @@ extension ScanViewController {
         //            machineImageData = machineArray[index]
         //        }
         ARImageArray.removeAll()
+        guard let machineImageData = machineImageData else { return }
         let urlListCount = machineImageData.imageUrlList.count
         for index in 0..<urlListCount {
             let urlList = machineImageData.imageUrlList

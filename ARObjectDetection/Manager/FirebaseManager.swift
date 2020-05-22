@@ -59,9 +59,8 @@ class FirebaseManager {
         guard let user = Auth.auth().currentUser else { return }
         let firebaseDatabaseRef = Database.database().reference().child("users/\(user.uid)")
         firebaseDatabaseRef.observe(.value) { (snapshot) in
+            var machineInfoArray: [MachineModel] = []
             if snapshot.childrenCount > 0 {
-                
-                var machineInfoArray: [MachineModel] = []
                 for machineData in snapshot.children.allObjects as! [DataSnapshot] {
                     if let machineObject = machineData.value as? [String:Any],
                         let url = machineObject["imageUrlList"] as? [NSString],
@@ -81,9 +80,9 @@ class FirebaseManager {
                         machineInfoArray.append(machineInfo)
                     }
                 }
-                onSuccess(machineInfoArray)
-                
             }
+            onSuccess(machineInfoArray)
+            
         }
     }
     
