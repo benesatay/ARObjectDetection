@@ -51,7 +51,6 @@ class CreatingViewController: UIViewController {
         backButton.title = NSLocalizedString("Back", comment: "")
         backButton.tintColor = .black
         self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
-        
         let cameraButton = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(openCamera))
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveMachineData))
         doneButton.title = NSLocalizedString("Done", comment: "")
@@ -75,12 +74,10 @@ class CreatingViewController: UIViewController {
         let type = typeTextField.text ?? ""
         self.imageUrlArray.removeAll()
         
-        
         activityIndicator.isHidden = false
         if machineListViewModel.machineList.contains(where: { $0.name == machineName }) {
             setAlertWithAction(title: "Warning", message: "This name was used before, please enter a different name!")
             activityIndicator.isHidden = true
-            
         } else {
             activityIndicator.isHidden = false
             for (index, image) in takenPhotoList.enumerated() {
@@ -99,14 +96,11 @@ class CreatingViewController: UIViewController {
                             type: type)
                         self.setAlertWithoutAction(title: "Success", message: "Added")
                         self.activityIndicator.isHidden = true
-                        
                 }, onError: { (error) in
                     self.setAlertWithAction(title: "Error", message: error)
                     self.activityIndicator.isHidden = true
-                    
                 })
             }
-            
         }
     }
 }

@@ -93,6 +93,7 @@ extension ScanViewController {
     
     func passToDetail(onSuccess: @escaping (ObjectDetailViewController) -> Void) {
         let nib = ObjectDetailViewController(nibName: "ObjectDetailViewController", bundle: nil)
+       
         nib.objectName = self.machineName
         onSuccess(nib)
     }
@@ -126,6 +127,7 @@ extension ScanViewController {
             if let imageURL = URL(string: urlList[index]) {
                 firebaseManager.getImage(from: imageURL) { (image, error) in
                     DispatchQueue.main.async {
+                        
                         guard let imageFromBundle = image,
                             //2. Convert It To A CIImage
                             let imageToCIImage = CIImage(image: imageFromBundle),

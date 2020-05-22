@@ -11,7 +11,6 @@ import FirebaseDatabase
 
 class FirebaseManager {
     var machineModel: MachineModel?
-    
     func writeToStorageMachineImage(
         image: UIImage,
         machineFolderName: String,
@@ -71,7 +70,7 @@ class FirebaseManager {
                         let machineName = name as String
                         let machineType = type as String
                         let machineSerialNo = serialNo as String
-
+                        
                         let machineInfo = MachineModel(
                             imageUrlList: imageUrlArray,
                             name: machineName,
@@ -82,7 +81,6 @@ class FirebaseManager {
                 }
             }
             onSuccess(machineInfoArray)
-            
         }
     }
     
