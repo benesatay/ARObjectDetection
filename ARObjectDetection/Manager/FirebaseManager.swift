@@ -8,7 +8,6 @@
 
 import Firebase
 import FirebaseDatabase
-import FirebaseFirestore
 
 class FirebaseManager {
     var machineModel: MachineModel?
