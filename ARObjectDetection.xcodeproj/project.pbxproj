@@ -102,6 +102,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A1C91CD247838FE00E5E295 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4A6353652472D2D900470795 /* SignInViewController */,
+				4A76E40F246B52A900EA4CD9 /* ScanViewController */,
+				4A76E410246B52B300EA4CD9 /* ObjectDetailViewController */,
+				4A50769F246DC05500957CAA /* CreatingViewController */,
+				4ADA42E8246EBEA800E38537 /* TakenPhotoCollectionViewCell */,
+				4A84A117246FE8DD0092E66D /* MachineListViewController */,
+				4A84A118246FE8ED0092E66D /* MachineCollectionViewCell */,
+				4A806BA024703A08006E4051 /* MachineImageViewController */,
+				4AE7D5572470320900974772 /* MachineImageCollectionViewCell */,
+				4A63536A2472F3FD00470795 /* ProfileViewController */,
+				4AFEAA382475AC5800870289 /* NewPasswordViewController */,
+				4A63536B2472F41100470795 /* CustomTabBarViewController */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		4A360CDC246B30AB00C1679E = {
 			isa = PBXGroup;
 			children = (
@@ -125,18 +144,7 @@
 			children = (
 				4AA5E5B5246ED6E400580E0F /* Manager */,
 				4AA5E5B4246ED6DA00580E0F /* Model */,
-				4A6353652472D2D900470795 /* SignInViewController */,
-				4A76E40F246B52A900EA4CD9 /* ScanViewController */,
-				4A76E410246B52B300EA4CD9 /* ObjectDetailViewController */,
-				4A50769F246DC05500957CAA /* CreatingViewController */,
-				4ADA42E8246EBEA800E38537 /* TakenPhotoCollectionViewCell */,
-				4A84A117246FE8DD0092E66D /* MachineListViewController */,
-				4A84A118246FE8ED0092E66D /* MachineCollectionViewCell */,
-				4A806BA024703A08006E4051 /* MachineImageViewController */,
-				4AE7D5572470320900974772 /* MachineImageCollectionViewCell */,
-				4A63536A2472F3FD00470795 /* ProfileViewController */,
-				4AFEAA382475AC5800870289 /* NewPasswordViewController */,
-				4A63536B2472F41100470795 /* CustomTabBarViewController */,
+				4A1C91CD247838FE00E5E295 /* View */,
 				4A663CD22472F7A100062405 /* Extensions */,
 				4A360CE8246B30AB00C1679E /* AppDelegate.swift */,
 				4A360CEA246B30AB00C1679E /* SceneDelegate.swift */,
