@@ -42,7 +42,6 @@
 		4ADA42E7246EBE9000E38537 /* TakenPhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4ADA42E5246EBE9000E38537 /* TakenPhotoCollectionViewCell.xib */; };
 		4AE7D5552470320300974772 /* MachineImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7D5532470320200974772 /* MachineImageCollectionViewCell.swift */; };
 		4AE7D5562470320300974772 /* MachineImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AE7D5542470320200974772 /* MachineImageCollectionViewCell.xib */; };
-		4AFEAA332475881E00870289 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFEAA322475881E00870289 /* Bundle+Extensions.swift */; };
 		4AFEAA362475AC4D00870289 /* NewPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFEAA342475AC4D00870289 /* NewPasswordViewController.swift */; };
 		4AFEAA372475AC4D00870289 /* NewPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AFEAA352475AC4D00870289 /* NewPasswordViewController.xib */; };
 /* End PBXBuildFile section */
@@ -86,7 +85,6 @@
 		4ADA42E5246EBE9000E38537 /* TakenPhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TakenPhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 		4AE7D5532470320200974772 /* MachineImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		4AE7D5542470320200974772 /* MachineImageCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MachineImageCollectionViewCell.xib; sourceTree = "<group>"; };
-		4AFEAA322475881E00870289 /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
 		4AFEAA342475AC4D00870289 /* NewPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordViewController.swift; sourceTree = "<group>"; };
 		4AFEAA352475AC4D00870289 /* NewPasswordViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPasswordViewController.xib; sourceTree = "<group>"; };
 		A09BFD25AEE69D178E95085F /* Pods_ARObjectDetection.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ARObjectDetection.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -211,7 +209,6 @@
 			isa = PBXGroup;
 			children = (
 				4A663CD02472F79E00062405 /* UIViewController+Extensions.swift */,
-				4AFEAA322475881E00870289 /* Bundle+Extensions.swift */,
 				4A50DA6C2476C980001C2446 /* String + Extensions.swift */,
 			);
 			path = Extensions;
@@ -455,7 +452,6 @@
 				4A6353632472D2C500470795 /* SignInViewController.swift in Sources */,
 				4A806BA3247051FF006E4051 /* MachineImageViewController.swift in Sources */,
 				4A360CE9246B30AB00C1679E /* AppDelegate.swift in Sources */,
-				4AFEAA332475881E00870289 /* Bundle+Extensions.swift in Sources */,
 				4A360CEB246B30AB00C1679E /* SceneDelegate.swift in Sources */,
 				4A9B2D62247033E500D908D8 /* CustomTabBarViewController.swift in Sources */,
 				4A84A111246FE4A10092E66D /* MachineListViewController.swift in Sources */,

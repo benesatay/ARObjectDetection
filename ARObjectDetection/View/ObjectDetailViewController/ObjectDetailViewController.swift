@@ -11,8 +11,8 @@ import UIKit
 class ObjectDetailViewController: MachineData {
     
     var objectName: String = ""
+    var machineImageData: MachineViewModel!
     var machineViewModel: MachineViewModel!
-
     
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -44,10 +44,11 @@ class ObjectDetailViewController: MachineData {
             }
             self.setLabelText()
             self.imageCollectionView.reloadData()
-            self.pageControl.numberOfPages = self.setImageUrlListCount()
+            self.pageControl.numberOfPages = self.setUrlListCount()
             self.activityIndicator.isHidden = true
             print("details were downloaded")
         })
+
 
         let imageCollectionViewNib = UINib(nibName: "MachineImageCollectionViewCell", bundle: nil)
         imageCollectionView.register(imageCollectionViewNib, forCellWithReuseIdentifier: "MachineImageCollectionViewCell")
@@ -63,11 +64,24 @@ class ObjectDetailViewController: MachineData {
         objectSerialNoLabel.text = machineViewModel.serialNo
     }
     
+    func setUrlListCount() -> Int {
+        guard let machineImageData = machineImageData else { return 0 }
+        let urlList = machineImageData.imageUrlList
+        let urlListCount = urlList.count
+        return urlListCount
+    }
     
     func setupCell(indexPath: IndexPath, to cell: MachineImageCollectionViewCell) {
-        setMachineImage(indexPath: indexPath) { (image) in
-            cell.machineImageView.image = image
-            cell.machineImageView.contentMode = .scaleAspectFill
+  
+        guard let machineImageData = machineImageData else { return }
+        let urlList = machineImageData.imageUrlList
+        if let imageURL = URL(string: urlList[indexPath.row]) {
+            firebaseManager.getImage(from: imageURL) { (image, error) in
+                DispatchQueue.main.async {
+                    cell.machineImageView.image = image
+                    cell.machineImageView.contentMode = .scaleAspectFill
+                }
+            }
         }
         cell.layer.cornerRadius = 10
     }
@@ -80,7 +94,7 @@ extension ObjectDetailViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return setImageUrlListCount()
+        return setUrlListCount()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

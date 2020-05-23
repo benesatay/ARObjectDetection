@@ -13,7 +13,9 @@ class ScanViewController: MachineData {
     
     let customButton = UIButton()
     var machineName: String = ""
-     
+    
+    var machineImageData: MachineViewModel?
+    
     var imageArray: [UIImage] = []
     var ARImageArray: [ARReferenceImage] = []
     var machineNameArray: [String] = []
@@ -40,10 +42,14 @@ class ScanViewController: MachineData {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        machineNameArray.removeAll()
+        ARImageArray.removeAll()
         setMachineData(onSuccess: {
             DispatchQueue.main.async {
                 self.setMachineImageToARImageList(onSuccess: {
                     DispatchQueue.main.async {
+                        
+                        print("self.ARImageArray.count",self.ARImageArray.count)
                         self.setupConfiguration()
                     }
                 })
@@ -101,52 +107,49 @@ extension ScanViewController {
 }
 
 extension ScanViewController {
- 
+    
     func setmachineImageNameArray(count: Int, name: String) {
         for _ in 0..<count {
             self.machineNameArray.append(name)
         }
     }
     
-    func setMachineImages() {
+    func setMachineImageToARImageList(onSuccess: @escaping() -> Void) {
+        
         for index in 0..<machineListViewModel.numberOfRowsInSection() {
             let machineViewModel = self.machineListViewModel.machineAtIndex(index)
             machineImageData = machineViewModel
-            setmachineImageNameArray(count: (machineImageData?.imageUrlList.count ?? 0), name: machineViewModel.name)
-        }
-    }
-    
-    func setMachineImageToARImageList(onSuccess: @escaping() -> Void) {
-        machineNameArray.removeAll()
-        ARImageArray.removeAll()
-
-        setMachineImages()
-
-        print(machineNameArray)
-        guard let machineImageData = machineImageData else { return }
-        let urlListCount = machineImageData.imageUrlList.count
-        for index in 0..<urlListCount {
-            let urlList = machineImageData.imageUrlList
-            if let imageURL = URL(string: urlList[index]) {
-                firebaseManager.getImage(from: imageURL) { (image, error) in
-                    DispatchQueue.main.async {
-                        guard error == nil else {
+            
+            guard let machineImageData = machineImageData else { return }
+            let urlListCount = machineImageData.imageUrlList.count
+            for index in 0..<urlListCount {
+                let urlList = machineImageData.imageUrlList
+                if let imageURL = URL(string: urlList[index]) {
+                    firebaseManager.getImage(from: imageURL) { (image, error) in
+                        DispatchQueue.main.async {
+                            guard error == nil else {
+                                self.activityIndicator.isHidden = true
+                                return }
+                            guard let imageFromBundle = image,
+                                //2. Convert It To A CIImage
+                                let imageToCIImage = CIImage(image: imageFromBundle),
+                                //3. Then Convert The CIImage To A CGImage
+                                let cgImage = self.convertCIImageToCGImage(inputImage: imageToCIImage) else { return }
+                            //4. Create An ARReference Image (Remembering Physical Width Is In Metres)
+                            let arImage = ARReferenceImage(cgImage, orientation: CGImagePropertyOrientation.up, physicalWidth: 0.2)
+                            self.ARImageArray.append(arImage)
+                            onSuccess()
                             self.activityIndicator.isHidden = true
-                            return }
-                        guard let imageFromBundle = image,
-                            //2. Convert It To A CIImage
-                            let imageToCIImage = CIImage(image: imageFromBundle),
-                            //3. Then Convert The CIImage To A CGImage
-                            let cgImage = self.convertCIImageToCGImage(inputImage: imageToCIImage) else { return }
-                        //4. Create An ARReference Image (Remembering Physical Width Is In Metres)
-                        let arImage = ARReferenceImage(cgImage, orientation: CGImagePropertyOrientation.up, physicalWidth: 0.2)
-                        self.ARImageArray.append(arImage)
-                        onSuccess()
-                        self.activityIndicator.isHidden = true
+                        }
                     }
                 }
             }
+            
+            setmachineImageNameArray(count: (machineImageData.imageUrlList.count ?? 0), name: machineViewModel.name)
         }
+        print(machineNameArray)
+        
+        
     }
     
     func convertCIImageToCGImage(inputImage: CIImage) -> CGImage? {
