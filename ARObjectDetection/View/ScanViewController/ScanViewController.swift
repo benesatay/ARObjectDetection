@@ -19,7 +19,6 @@ class ScanViewController: UIViewController {
     var machineImageData: MachineViewModel?
     
     var imageArray: [UIImage] = []
-    //var machineArray = [MachineModel]()
     var ARImageArray: [ARReferenceImage] = []
     var machineNameArray: [String] = []
     
@@ -42,15 +41,19 @@ class ScanViewController: UIViewController {
         sceneView.scene = scene
         
         setCustomButton()
-        setMachineDataToScan(onSuccess: {
-            DispatchQueue.main.async {
-                self.setMachineImageToARImageList()
-            }
-        })
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setupConfiguration()
+        setMachineDataToScan(onSuccess: {
+            DispatchQueue.main.async {
+                self.setMachineImageToARImageList(onSuccess: {
+                    DispatchQueue.main.async {
+                        self.setupConfiguration()
+                    }
+                })
+            }
+        })
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -101,24 +104,21 @@ extension ScanViewController {
 
 extension ScanViewController {
     func setMachineDataToScan(onSuccess: @escaping () -> Void) {
-        //self.machineArray.removeAll()
         firebaseManager.getMachineData(onSuccess: { machineinfo in
             DispatchQueue.main.async {
                 self.machineListViewModel = MachineListViewModel(machineList: machineinfo)
-                //  self.machineArray = machineinfo
                 onSuccess()
             }
         })
+        
+         
     }
     
-    func setMachineImageToARImageList() {
+    func setMachineImageToARImageList(onSuccess: @escaping() -> Void) {
         for index in 0..<machineListViewModel.numberOfRowsInSection() {
             let machineViewModel = self.machineListViewModel.machineAtIndex(index)
             machineImageData = machineViewModel
         }
-        //        for index in 0..<machineArray.count {
-        //            machineImageData = machineArray[index]
-        //        }
         ARImageArray.removeAll()
         guard let machineImageData = machineImageData else { return }
         let urlListCount = machineImageData.imageUrlList.count
@@ -127,7 +127,9 @@ extension ScanViewController {
             if let imageURL = URL(string: urlList[index]) {
                 firebaseManager.getImage(from: imageURL) { (image, error) in
                     DispatchQueue.main.async {
-                        
+                        guard error == nil else {
+                            self.activityIndicator.isHidden = true
+                            return }
                         guard let imageFromBundle = image,
                             //2. Convert It To A CIImage
                             let imageToCIImage = CIImage(image: imageFromBundle),
@@ -136,12 +138,14 @@ extension ScanViewController {
                         //4. Create An ARReference Image (Remembering Physical Width Is In Metres)
                         let arImage = ARReferenceImage(cgImage, orientation: CGImagePropertyOrientation.up, physicalWidth: 0.2)
                         self.ARImageArray.append(arImage)
+                        onSuccess()
+                        self.activityIndicator.isHidden = true
                     }
                     print("ARImageArray.count3",self.ARImageArray.count)
                 }
             }
         }
-        activityIndicator.isHidden = true
+        
     }
     
     func convertCIImageToCGImage(inputImage: CIImage) -> CGImage? {
