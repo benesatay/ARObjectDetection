@@ -8,11 +8,8 @@
 
 import UIKit
 
-class CreatingViewController: UIViewController {
-    
-    var firebaseManager = FirebaseManager()
-    private var machineListViewModel: MachineListViewModel!
-    
+class CreatingViewController: MachineData {
+ 
     var takenPhotoList : Array<UIImage> = []
     var imageUrlArray = [String]()
     
@@ -33,7 +30,10 @@ class CreatingViewController: UIViewController {
         takenPhotoCollectionView.delegate = self
         takenPhotoCollectionView.dataSource = self
         
-        setMachineData()
+        setMachineData(onSuccess: {
+            print("data set")
+        })
+        
         setupTextField()
         setupNavigationItems()
         editCollectionViewStyle()
@@ -58,15 +58,7 @@ class CreatingViewController: UIViewController {
         doneButton.tintColor = .black
         navigationItem.rightBarButtonItems = [doneButton, cameraButton]
     }
-    
-    func setMachineData() {
-        firebaseManager.getMachineData(onSuccess: { machineinfo in
-            DispatchQueue.main.async {
-                self.machineListViewModel = MachineListViewModel(machineList: machineinfo)
-            }
-        })
-    }
-    
+
     @objc func saveMachineData() {
         let machineName = (nameTextField.text ?? "noname")
         let machineFolderName = machineName

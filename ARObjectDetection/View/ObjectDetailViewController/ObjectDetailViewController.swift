@@ -8,13 +8,14 @@
 
 import UIKit
 
-class ObjectDetailViewController: UIViewController {
+class ObjectDetailViewController: MachineData {
     
-    let firebaseManager = FirebaseManager()
-    // var machineArray = [MachineModel]()
     var objectName: String = ""
-    var machineImageData: MachineViewModel!
-    private var machineListViewModel: MachineListViewModel!
+    var machineViewModel: MachineViewModel!
+
+    
+    @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var typeHeader: UILabel!
     @IBOutlet weak var nameHeader: UILabel!
@@ -24,60 +25,51 @@ class ObjectDetailViewController: UIViewController {
     @IBOutlet weak var objectNameLabel: UILabel!
     @IBOutlet weak var objectSerialNoLabel: UILabel!
     @IBOutlet weak var imageCollectionView: UICollectionView!
+    @IBOutlet weak var objectDetailView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setLabelText()
+        activityIndicator.isHidden = false
         
         imageCollectionView.delegate = self
         imageCollectionView.dataSource = self
         
-        //pageControl.numberOfPages = setUrlListCount()
+        objectDetailView.layer.cornerRadius = 10
         
-        setMachineDataToDetail(onSuccess: {
-            
+        setMachineData(onSuccess: {
             for index in 0..<self.machineListViewModel.machineList.count {
-                let machineViewModel = self.machineListViewModel.machineAtIndex(index)
-                self.machineImageData = machineViewModel
+                if self.objectName == self.machineListViewModel.machineAtIndex(index).name {
+                    self.machineViewModel = self.machineListViewModel.machineAtIndex(index)
+                    self.machineImageData = self.machineViewModel
+                }
             }
+            self.setLabelText()
+            self.imageCollectionView.reloadData()
+            self.pageControl.numberOfPages = self.setImageUrlListCount()
+            self.activityIndicator.isHidden = true
             print("details were downloaded")
         })
+
         let imageCollectionViewNib = UINib(nibName: "MachineImageCollectionViewCell", bundle: nil)
         imageCollectionView.register(imageCollectionViewNib, forCellWithReuseIdentifier: "MachineImageCollectionViewCell")
     }
-    
+        
     func setLabelText() {
         typeHeader.text = NSLocalizedString("Type", comment: "")
         nameHeader.text = NSLocalizedString("Name", comment: "")
         serialNoHeader.text = NSLocalizedString("Serial No", comment: "")
+        
+        objectTypeLabel.text = machineViewModel.type
+        objectNameLabel.text = machineViewModel.name
+        objectSerialNoLabel.text = machineViewModel.serialNo
     }
     
-    func setMachineDataToDetail(onSuccess: @escaping () -> Void) {
-        firebaseManager.getMachineData(onSuccess: { machineinfo in
-            DispatchQueue.main.async {
-                self.machineListViewModel = MachineListViewModel(machineList: machineinfo)
-                self.imageCollectionView.reloadData()
-                onSuccess()
-            }
-        })
-    }
-    
-    func setUrlListCount() -> Int {
-        let urlList = machineImageData.imageUrlList
-        let urlListCount = urlList.count
-        return urlListCount
-    }
     
     func setupCell(indexPath: IndexPath, to cell: MachineImageCollectionViewCell) {
-        let urlList = machineImageData.imageUrlList
-        if let imageURL = URL(string: urlList[indexPath.row]) {
-            firebaseManager.getImage(from: imageURL) { (image, error) in
-                DispatchQueue.main.async {
-                    cell.machineImageView.image = image
-                    cell.machineImageView.contentMode = .scaleAspectFill
-                }
-            }
+        setMachineImage(indexPath: indexPath) { (image) in
+            cell.machineImageView.image = image
+            cell.machineImageView.contentMode = .scaleAspectFill
         }
+        cell.layer.cornerRadius = 10
     }
 }
 
@@ -88,7 +80,7 @@ extension ObjectDetailViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return setUrlListCount()
+        return setImageUrlListCount()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -98,8 +90,8 @@ extension ObjectDetailViewController: UICollectionViewDelegate, UICollectionView
     }
 }
 
-//extension ObjectDetailViewController: UIScrollViewDelegate {
-//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        pageControl.currentPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
-//    }
-//}
+extension ObjectDetailViewController: UIScrollViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        pageControl.currentPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
+    }
+}

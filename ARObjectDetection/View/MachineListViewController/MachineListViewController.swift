@@ -8,11 +8,7 @@
 
 import UIKit
 
-class MachineListViewController: UIViewController {
-    let firebaseManager = FirebaseManager()
-    //var machineArray = [MachineModel]()
-    
-    private var machineListViewModel: MachineListViewModel!
+class MachineListViewController: MachineData {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var machineInfoCollectionView: UICollectionView!
@@ -24,22 +20,13 @@ class MachineListViewController: UIViewController {
         machineInfoCollectionView.delegate = self
         machineInfoCollectionView.dataSource = self
         
-        setMachineData()
+        setMachineData(onSuccess: {
+            self.machineInfoCollectionView.reloadData()
+            self.activityIndicator.isHidden = true
+        })
         
         let nib = UINib(nibName: "MachineCollectionViewCell", bundle: nil)
         machineInfoCollectionView.register(nib, forCellWithReuseIdentifier: "MachineCollectionViewCell")
-    }
-    
-    func setMachineData() {
-       // self.machineArray.removeAll()
-        firebaseManager.getMachineData(onSuccess: { machineinfo in
-            DispatchQueue.main.async {
-                self.machineListViewModel = MachineListViewModel(machineList: machineinfo)
-               // self.machineArray = machineinfo
-                self.machineInfoCollectionView.reloadData()
-                self.activityIndicator.isHidden = true
-            }
-        })
     }
     
     func setupCell(indexPath: IndexPath, to cell: MachineCollectionViewCell) {
@@ -59,7 +46,7 @@ class MachineListViewController: UIViewController {
         destination.view.frame = viewFrame
         cell.subView.addSubview(destination.view)
         addChild(destination)
-
+        
         cell.layer.cornerRadius = 10
     }
 }

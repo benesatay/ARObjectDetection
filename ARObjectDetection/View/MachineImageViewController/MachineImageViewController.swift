@@ -9,11 +9,7 @@
 import UIKit
 
 
-class MachineImageViewController: UIViewController {
-    
-    let firebaseManager = FirebaseManager()
-
-    var machineImageData: MachineViewModel!
+class MachineImageViewController: MachineData {
     
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet weak var pageControl: UIPageControl!
@@ -34,16 +30,12 @@ class MachineImageViewController: UIViewController {
         let urlListCount = urlList.count
         return urlListCount
     }
+
     
     func setupCell(indexPath: IndexPath, to cell: MachineImageCollectionViewCell) {
-        let urlList = machineImageData.imageUrlList
-        if let imageURL = URL(string: urlList[indexPath.row]) {
-            firebaseManager.getImage(from: imageURL) { (image, error) in
-                DispatchQueue.main.async {
-                    cell.machineImageView.image = image
-                    cell.machineImageView.contentMode = .scaleAspectFill
-                }
-            }
+        setMachineImage(indexPath: indexPath) { (image) in
+            cell.machineImageView.image = image
+            cell.machineImageView.contentMode = .scaleAspectFill
         }
     }
 }

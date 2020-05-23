@@ -9,15 +9,11 @@
 import UIKit
 import ARKit
 
-class ScanViewController: UIViewController {
+class ScanViewController: MachineData {
     
     let customButton = UIButton()
     var machineName: String = ""
-    var firebaseManager = FirebaseManager()
-    
-    private var machineListViewModel: MachineListViewModel!
-    var machineImageData: MachineViewModel?
-    
+     
     var imageArray: [UIImage] = []
     var ARImageArray: [ARReferenceImage] = []
     var machineNameArray: [String] = []
@@ -41,11 +37,10 @@ class ScanViewController: UIViewController {
         sceneView.scene = scene
         
         setCustomButton()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setMachineDataToScan(onSuccess: {
+        setMachineData(onSuccess: {
             DispatchQueue.main.async {
                 self.setMachineImageToARImageList(onSuccess: {
                     DispatchQueue.main.async {
@@ -78,10 +73,13 @@ extension ScanViewController: ARSCNViewDelegate {
 
 extension ScanViewController {
     func setCustomButton() {
-        customButton.frame = CGRect(x: UIScreen.main.bounds.width / 2, y: 100, width: 50, height: 50)
-        customButton.backgroundColor = .black
+        customButton.frame = CGRect(x: UIScreen.main.bounds.width - 70, y: 150, width: 50, height: 50)
+        customButton.layer.borderColor = UIColor.systemBlue.cgColor
         customButton.layer.cornerRadius = 25
-        customButton.setTitle("i", for: .normal)
+        customButton.layer.borderWidth = 2
+        if #available(iOS 13.0, *) {
+            customButton.setImage(UIImage(systemName: "info"), for: .normal)
+        }
         customButton.addTarget(self, action: #selector(buttonAction(sender:)), for: .touchUpInside)
         self.view.addSubview(customButton)
         customButton.isHidden = true
@@ -91,35 +89,40 @@ extension ScanViewController {
         print("Button tapped")
         passToDetail(onSuccess: { (viewController) in
             self.navigationController?.pushViewController(viewController, animated: true)
+            self.customButton.isHidden = true
         })
     }
     
     func passToDetail(onSuccess: @escaping (ObjectDetailViewController) -> Void) {
         let nib = ObjectDetailViewController(nibName: "ObjectDetailViewController", bundle: nil)
-       
         nib.objectName = self.machineName
         onSuccess(nib)
     }
 }
 
 extension ScanViewController {
-    func setMachineDataToScan(onSuccess: @escaping () -> Void) {
-        firebaseManager.getMachineData(onSuccess: { machineinfo in
-            DispatchQueue.main.async {
-                self.machineListViewModel = MachineListViewModel(machineList: machineinfo)
-                onSuccess()
-            }
-        })
-        
-         
+ 
+    func setmachineImageNameArray(count: Int, name: String) {
+        for _ in 0..<count {
+            self.machineNameArray.append(name)
+        }
     }
     
-    func setMachineImageToARImageList(onSuccess: @escaping() -> Void) {
+    func setMachineImages() {
         for index in 0..<machineListViewModel.numberOfRowsInSection() {
             let machineViewModel = self.machineListViewModel.machineAtIndex(index)
             machineImageData = machineViewModel
+            setmachineImageNameArray(count: (machineImageData?.imageUrlList.count ?? 0), name: machineViewModel.name)
         }
+    }
+    
+    func setMachineImageToARImageList(onSuccess: @escaping() -> Void) {
+        machineNameArray.removeAll()
         ARImageArray.removeAll()
+
+        setMachineImages()
+
+        print(machineNameArray)
         guard let machineImageData = machineImageData else { return }
         let urlListCount = machineImageData.imageUrlList.count
         for index in 0..<urlListCount {
@@ -141,11 +144,9 @@ extension ScanViewController {
                         onSuccess()
                         self.activityIndicator.isHidden = true
                     }
-                    print("ARImageArray.count3",self.ARImageArray.count)
                 }
             }
         }
-        
     }
     
     func convertCIImageToCGImage(inputImage: CIImage) -> CGImage? {
@@ -156,8 +157,8 @@ extension ScanViewController {
     
     func setupConfiguration() {
         let configuration = ARImageTrackingConfiguration()
-        for ARImage in ARImageArray {
-            ARImage.name = "deneme"
+        for (index, ARImage) in ARImageArray.enumerated() {
+            ARImage.name = machineNameArray[index]
             configuration.trackingImages = [ARImage]
             configuration.maximumNumberOfTrackedImages = 1
         }
