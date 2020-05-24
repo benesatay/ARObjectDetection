@@ -52,52 +52,55 @@ class CreatingViewController: MachineData {
         backButton.tintColor = .black
         self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
         let cameraButton = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(openCamera))
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveMachineData))
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonClicked))
         doneButton.title = NSLocalizedString("Done", comment: "")
         cameraButton.tintColor = .black
         doneButton.tintColor = .black
         navigationItem.rightBarButtonItems = [doneButton, cameraButton]
     }
 
-    @objc func saveMachineData() {
+    @objc func doneButtonClicked() {
         let machineName = (nameTextField.text ?? "noname")
-        let machineFolderName = machineName
-        let serialNo = serialNoTextField.text ?? ""
-        let type = typeTextField.text ?? ""
         self.imageUrlArray.removeAll()
-        
         activityIndicator.isHidden = false
         if machineListViewModel.machineList.contains(where: { $0.name == machineName }) {
             setAlertWithAction(title: "Warning", message: "This name was used before, please enter a different name!")
             activityIndicator.isHidden = true
         } else {
-            activityIndicator.isHidden = false
-            for (index, image) in takenPhotoList.enumerated() {
-                let imageName = machineFolderName + "\(index)"
-                firebaseManager.writeToStorageMachineImage(
-                    image: image,
-                    machineFolderName: machineFolderName,
-                    imageName: imageName,
-                    onSuccess: { (imageUrl) in
-                        self.imageUrlArray.append(imageUrl)
-                        self.firebaseManager.writeToFirebase(
-                            machineFolderName: machineFolderName,
-                            imageUrlArray: self.imageUrlArray,
-                            machineName: machineName,
-                            serialNo: serialNo,
-                            type: type)
-                        self.setAlertWithoutAction(title: "Success", message: "Added")
-                        self.activityIndicator.isHidden = true
-                }, onError: { (error) in
-                    self.setAlertWithAction(title: "Error", message: error)
+            saveMachineData(machineName: machineName)
+        }
+    }
+    
+    func saveMachineData(machineName: String) {
+        let machineFolderName = machineName
+        let serialNo = serialNoTextField.text ?? ""
+        let type = typeTextField.text ?? ""
+        for (index, image) in takenPhotoList.enumerated() {
+            let imageName = machineFolderName + "\(index)"
+            firebaseManager.writeToStorageMachineImage(
+                image: image,
+                machineFolderName: machineFolderName,
+                imageName: imageName,
+                onSuccess: { (imageUrl) in
+                    self.imageUrlArray.append(imageUrl)
+                    self.firebaseManager.writeToFirebase(
+                        machineFolderName: machineFolderName,
+                        imageUrlArray: self.imageUrlArray,
+                        machineName: machineName,
+                        serialNo: serialNo,
+                        type: type)
+                    self.setAlertWithoutAction(title: "Success", message: "Added")
                     self.activityIndicator.isHidden = true
-                })
-            }
+            }, onError: { (error) in
+                self.setAlertWithAction(title: "Error", message: error)
+                self.activityIndicator.isHidden = true
+            })
         }
     }
 }
 
 extension CreatingViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
     @objc func openCamera() {
         let picker = UIImagePickerController()
         picker.delegate = self

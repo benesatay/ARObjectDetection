@@ -9,11 +9,8 @@
 import UIKit
 
 
-class MachineImageViewController: UIViewController {
+class MachineImageViewController: MachineData {
     
-    let firebaseManager = FirebaseManager()
-
-    var machineImageData: MachineViewModel!
     
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet weak var pageControl: UIPageControl!
@@ -23,39 +20,31 @@ class MachineImageViewController: UIViewController {
         imageCollectionView.delegate = self
         imageCollectionView.dataSource = self
         
-        pageControl.numberOfPages = setUrlListCount()
-
+        pageControl.numberOfPages = setImageUrlListCount()
+        
         let imageCollectionViewNib = UINib(nibName: "MachineImageCollectionViewCell", bundle: nil)
         imageCollectionView.register(imageCollectionViewNib, forCellWithReuseIdentifier: "MachineImageCollectionViewCell")
     }
     
-    func setUrlListCount() -> Int {
-        let urlList = machineImageData.imageUrlList
-        let urlListCount = urlList.count
-        return urlListCount
-    }
-    
     func setupCell(indexPath: IndexPath, to cell: MachineImageCollectionViewCell) {
-        let urlList = machineImageData.imageUrlList
-        if let imageURL = URL(string: urlList[indexPath.row]) {
-            firebaseManager.getImage(from: imageURL) { (image, error) in
-                DispatchQueue.main.async {
-                    cell.machineImageView.image = image
-                    cell.machineImageView.contentMode = .scaleAspectFill
-                }
-            }
-        }
+        setMachineImageToCollectionView(indexPath: indexPath, onSuccess: { (image) in
+            cell.machineImageView.image = image
+            cell.machineImageView.contentMode = .scaleAspectFill
+            
+        }, onError: { (error) in
+            self.setAlertWithAction(title: "Error", message: error)
+        })
     }
 }
 
 extension MachineImageViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: 300)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return setUrlListCount()
+        return setImageUrlListCount()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

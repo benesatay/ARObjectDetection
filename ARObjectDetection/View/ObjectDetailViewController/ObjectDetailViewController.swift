@@ -11,7 +11,6 @@ import UIKit
 class ObjectDetailViewController: MachineData {
     
     var objectName: String = ""
-    var machineImageData: MachineViewModel!
     var machineViewModel: MachineViewModel!
     
     @IBOutlet weak var pageControl: UIPageControl!
@@ -44,7 +43,7 @@ class ObjectDetailViewController: MachineData {
             }
             self.setLabelText()
             self.imageCollectionView.reloadData()
-            self.pageControl.numberOfPages = self.setUrlListCount()
+            self.pageControl.numberOfPages = self.setImageUrlListCount()
             self.activityIndicator.isHidden = true
             print("details were downloaded")
         })
@@ -64,25 +63,13 @@ class ObjectDetailViewController: MachineData {
         objectSerialNoLabel.text = machineViewModel.serialNo
     }
     
-    func setUrlListCount() -> Int {
-        guard let machineImageData = machineImageData else { return 0 }
-        let urlList = machineImageData.imageUrlList
-        let urlListCount = urlList.count
-        return urlListCount
-    }
-    
     func setupCell(indexPath: IndexPath, to cell: MachineImageCollectionViewCell) {
-  
-        guard let machineImageData = machineImageData else { return }
-        let urlList = machineImageData.imageUrlList
-        if let imageURL = URL(string: urlList[indexPath.row]) {
-            firebaseManager.getImage(from: imageURL) { (image, error) in
-                DispatchQueue.main.async {
-                    cell.machineImageView.image = image
-                    cell.machineImageView.contentMode = .scaleAspectFill
-                }
-            }
-        }
+        setMachineImageToCollectionView(indexPath: indexPath, onSuccess: { (image) in
+            cell.machineImageView.image = image
+            cell.machineImageView.contentMode = .scaleAspectFill
+        }, onError: { (error) in
+            self.setAlertWithAction(title: "Error", message: error)
+        })
         cell.layer.cornerRadius = 10
     }
 }
@@ -94,7 +81,7 @@ extension ObjectDetailViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return setUrlListCount()
+        return setImageUrlListCount()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
