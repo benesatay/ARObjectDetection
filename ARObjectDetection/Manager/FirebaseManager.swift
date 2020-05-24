@@ -90,4 +90,24 @@ class FirebaseManager {
             completion(UIImage(data: data), error)
         }).resume()
     }
+    
+    func removeSelectedItemFromFirebase(childName: String, url: String, onSuccess: @escaping () -> Void, onError: @escaping (String) -> Void) {
+        guard let user = Auth.auth().currentUser else { return }
+        let storage = Storage.storage()
+        let storageRef = storage.reference(forURL: url)
+        //Removes image from storage
+        storageRef.delete { error in
+            guard error == nil else {
+                onError(error?.localizedDescription ?? "Error")
+                return
+            }
+             let firebaseDatabaseRef = Database.database().reference(withPath: "users/\(user.uid)")
+             firebaseDatabaseRef.child(childName).removeValue { (error, DatabaseReference) in
+                 if error != nil {
+                     onError(error?.localizedDescription ?? "Error")
+                 }
+             }
+            onSuccess()
+        }
+    }
 }

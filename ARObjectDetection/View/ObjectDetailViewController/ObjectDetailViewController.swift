@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ObjectDetailViewController: MachineData {
     
@@ -34,6 +35,14 @@ class ObjectDetailViewController: MachineData {
         
         objectDetailView.layer.cornerRadius = 10
         
+        setupMachineData()
+        setupNavigationBarItems()
+        
+        let imageCollectionViewNib = UINib(nibName: "MachineImageCollectionViewCell", bundle: nil)
+        imageCollectionView.register(imageCollectionViewNib, forCellWithReuseIdentifier: "MachineImageCollectionViewCell")
+    }
+ 
+    func setupMachineData() {
         setMachineData(onSuccess: {
             for index in 0..<self.machineListViewModel.machineList.count {
                 if self.objectName == self.machineListViewModel.machineAtIndex(index).name {
@@ -47,12 +56,38 @@ class ObjectDetailViewController: MachineData {
             self.activityIndicator.isHidden = true
             print("details were downloaded")
         })
-
-
-        let imageCollectionViewNib = UINib(nibName: "MachineImageCollectionViewCell", bundle: nil)
-        imageCollectionView.register(imageCollectionViewNib, forCellWithReuseIdentifier: "MachineImageCollectionViewCell")
     }
-        
+    
+    @objc func trashTapped() {
+        setAlertWithManyActions(
+            title: "Warning",
+            message: "Are you sure that you want to delete this item?",
+            onOK: {
+                guard let machineImageData = self.machineImageData else { return }
+                for index in 0..<machineImageData.imageUrlList.count {
+                    let url = machineImageData.imageUrlList[index]
+                    self.firebaseManager.removeSelectedItemFromFirebase(childName: self.machineViewModel.name, url: url, onSuccess: {
+                        self.setAlertWithoutAction(title: "Success", message: "Deleted")
+                    }, onError: { (error) in
+                        self.setAlertWithAction(title: "Error", message: error)
+                    })
+                }
+                self.navigationController?.popViewController(animated: true)
+        },
+            onCancel: {
+                self.dismiss(animated: true, completion: nil)
+        })
+    }
+    
+    func setupNavigationBarItems() {
+        let backButton = UIBarButtonItem()
+        backButton.title = NSLocalizedString("Back", comment: "")
+        backButton.tintColor = .black
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashTapped))
+        navigationItem.rightBarButtonItem?.tintColor = .black
+    }
+    
     func setLabelText() {
         typeHeader.text = NSLocalizedString("Type", comment: "")
         nameHeader.text = NSLocalizedString("Name", comment: "")

@@ -20,6 +20,10 @@ class MachineListViewController: MachineData {
         machineInfoCollectionView.delegate = self
         machineInfoCollectionView.dataSource = self
         
+        DispatchQueue.main.async {
+            self.machineInfoCollectionView.reloadData()
+        }
+        
         setMachineData(onSuccess: {
             self.machineInfoCollectionView.reloadData()
             self.activityIndicator.isHidden = true
@@ -52,6 +56,14 @@ class MachineListViewController: MachineData {
 }
 
 extension MachineListViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let destination = ObjectDetailViewController(nibName: "ObjectDetailViewController", bundle: nil)
+        let machineViewModel = self.machineListViewModel.machineAtIndex(indexPath.row)
+        destination.objectName = machineViewModel.name
+        navigationController?.pushViewController(destination, animated: true)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width-16, height: 403)
     }

@@ -18,8 +18,9 @@ class NewPasswordViewController: UIViewController {
     override func viewDidLoad() {
         activityIndicator.isHidden = true
         super.viewDidLoad()
+        
+        setupNavigationBarItems()
         editTextFieldView()
-        // Do any additional setup after loading the view.
     }
     
     @IBAction func saveButton(_ sender: Any) {
@@ -67,5 +68,12 @@ class NewPasswordViewController: UIViewController {
     func editTextFieldView() {
         textFieldView.layer.borderWidth = 1
         textFieldView.layer.borderColor = UIColor.lightGray.cgColor
+    }
+    
+    func setupNavigationBarItems() {
+        let backButton = UIBarButtonItem()
+        backButton.title = NSLocalizedString("Back", comment: "")
+        backButton.tintColor = .black
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
     }
 }

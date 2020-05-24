@@ -41,6 +41,13 @@ class MachineImageViewController: MachineData {
 
 extension MachineImageViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let destination = ObjectDetailViewController(nibName: "ObjectDetailViewController", bundle: nil)
+        guard let machineImageData = machineImageData else { return }
+        destination.objectName = machineImageData.name
+        navigationController?.pushViewController(destination, animated: true)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: 300)
     }

@@ -67,11 +67,14 @@ class CreatingViewController: MachineData {
             setAlertWithAction(title: "Warning", message: "This name was used before, please enter a different name!")
             activityIndicator.isHidden = true
         } else {
-            saveMachineData(machineName: machineName)
+            saveMachineData(machineName: machineName, onSuccess: {
+                self.setAlertWithoutAction(title: "Success", message: "Added")
+                self.activityIndicator.isHidden = true
+            })
         }
     }
     
-    func saveMachineData(machineName: String) {
+    func saveMachineData(machineName: String, onSuccess: @escaping () -> Void) {
         let machineFolderName = machineName
         let serialNo = serialNoTextField.text ?? ""
         let type = typeTextField.text ?? ""
@@ -89,8 +92,7 @@ class CreatingViewController: MachineData {
                         machineName: machineName,
                         serialNo: serialNo,
                         type: type)
-                    self.setAlertWithoutAction(title: "Success", message: "Added")
-                    self.activityIndicator.isHidden = true
+                    onSuccess()
             }, onError: { (error) in
                 self.setAlertWithAction(title: "Error", message: error)
                 self.activityIndicator.isHidden = true

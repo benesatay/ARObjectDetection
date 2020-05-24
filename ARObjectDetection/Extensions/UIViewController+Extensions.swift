@@ -30,26 +30,27 @@ extension UIViewController {
         self.present(alert, animated: true)
     }
     
-//    func setAlertWithActions(title: String, message: String) {
-//        let alert = UIAlertController(
-//            title: NSLocalizedString(title, comment: ""),
-//            message: NSLocalizedString(message, comment: ""),
-//            preferredStyle: .alert)
-//        let okButton = UIAlertAction(
-//            title: NSLocalizedString("OK", comment: ""),
-//            style: .default,
-//            handler: nil)
-//        let ok = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default) { (UIAlertAction) in
-//            <#code#>
-//        }
-//        let cancelButton = UIAlertAction(
-//            title: NSLocalizedString("Cancel", comment: ""),
-//            style: .default,
-//            handler: nil)
-//        alert.addAction(okButton)
-//        alert.addAction(cancelButton)
-//        self.present(alert, animated: true)
-//    }
+    func setAlertWithManyActions(title: String, message: String, onOK: @escaping () -> Void, onCancel: @escaping () -> Void) {
+        let alert = UIAlertController(
+            title: NSLocalizedString(title, comment: ""),
+            message: NSLocalizedString(message, comment: ""),
+            preferredStyle: .alert)
+        let okButton = UIAlertAction(
+            title: NSLocalizedString("OK", comment: ""),
+            style: .default)
+        { (UIAlertAction) in
+            onOK()
+        }
+        let cancelButton = UIAlertAction(
+            title: NSLocalizedString("Cancel", comment: ""),
+            style: .default)
+        { (UIAlertAction) in
+            onCancel()
+        }
+        alert.addAction(okButton)
+        alert.addAction(cancelButton)
+        self.present(alert, animated: true)
+    }
     
     func setAlertWithoutAction(title: String, message: String) {
         let alert = UIAlertController(

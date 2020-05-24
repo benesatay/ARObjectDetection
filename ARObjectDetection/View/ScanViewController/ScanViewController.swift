@@ -35,6 +35,7 @@ class ScanViewController: MachineData {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        activityIndicator.isHidden = false
         ARReferenceImageSet.removeAll()
         setMachineData(onSuccess: {
             DispatchQueue.main.async {
@@ -81,11 +82,10 @@ extension ScanViewController {
             arImage.name = name
             self.ARReferenceImageSet.insert(arImage)
             onSuccess()
-            self.activityIndicator.isHidden = true
         }, onError: { (error) in
             self.setAlertWithAction(title: "Error", message: error)
-            self.activityIndicator.isHidden = true
         })
+        self.activityIndicator.isHidden = true
     }
     
     func convertCIImageToCGImage(inputImage: CIImage) -> CGImage? {

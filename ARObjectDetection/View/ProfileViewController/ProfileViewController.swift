@@ -75,31 +75,21 @@ class ProfileViewController: UIViewController {
     }
     
     func signOut() {
-        let alert = UIAlertController(
-            title: NSLocalizedString("Warning", comment: ""),
-            message: NSLocalizedString("Are you sure that you want to sign out?", comment: ""),
-            preferredStyle: .alert)
-        let okButton = UIAlertAction(
-            title: NSLocalizedString("OK", comment: ""),
-            style: .default)
-        { (UIAlertAction) in
-            do {
-                try  Auth.auth().signOut()
-                let signInNavigationController = UINavigationController(rootViewController: SignInViewController())
-                UIApplication.shared.keyWindow?.rootViewController = signInNavigationController
-            } catch let error {
-                print(error)
-            }
-        }
-        let cancelButton = UIAlertAction(
-            title: NSLocalizedString("Cancel", comment: ""),
-            style: .default)
-        { (UIAlertAction) in
+        setAlertWithManyActions(
+            title: "Warning",
+            message: "Are you sure that you want to sign out?",
+            onOK: {
+                do {
+                    try  Auth.auth().signOut()
+                    let signInNavigationController = UINavigationController(rootViewController: SignInViewController())
+                    UIApplication.shared.keyWindow?.rootViewController = signInNavigationController
+                } catch let error {
+                    print(error)
+                }
+        }, onCancel: {
             self.tableView.reloadData()
-        }
-        alert.addAction(okButton)
-        alert.addAction(cancelButton)
-        self.present(alert, animated: true)
+            
+        })
     }
 }
 
@@ -147,9 +137,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             navigationController?.pushViewController(destination, animated: true)
             tableView.reloadData()
         } else if itemText == NSLocalizedString("English", comment: "") || itemText == NSLocalizedString("Turkish", comment: "") {
-            setAlertWithAction(
-                title: NSLocalizedString("Warning", comment: ""),
-                message: NSLocalizedString("You should change the phone language to change the app language!", comment: ""))
+            setAlertWithAction(title: "Warning",
+                               message: "You should change the phone language to change the app language!")
             tableView.reloadData()
         } else {
             subViewLabel.text = itemText

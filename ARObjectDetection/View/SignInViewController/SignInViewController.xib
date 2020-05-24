@@ -115,22 +115,27 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ryL-uL-tNb">
                     <rect key="frame" x="8" y="575" width="398" height="30"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ffl-Fw-W5X">
-                            <rect key="frame" x="0.0" y="0.0" width="126" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ffl-Fw-W5X">
+                            <rect key="frame" x="0.0" y="0.0" width="150" height="30"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="126" id="0fV-OC-klp"/>
+                                <constraint firstAttribute="width" constant="150" id="Egs-Ec-Jql"/>
                                 <constraint firstAttribute="height" constant="30" id="IPv-cq-KCD"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="N7C-fN-ae2"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="a5M-AZ-vT2"/>
                             </constraints>
+                            <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
                             <state key="normal" title="Create an account"/>
                             <connections>
                                 <action selector="signUpButton:" destination="-1" eventType="touchUpInside" id="6pd-GJ-nBb"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F8D-OF-sJP">
-                            <rect key="frame" x="289" y="0.0" width="109" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F8D-OF-sJP">
+                            <rect key="frame" x="248" y="0.0" width="150" height="30"/>
                             <constraints>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="CEw-pH-HFj"/>
                                 <constraint firstAttribute="height" constant="30" id="EY7-p5-X5t"/>
-                                <constraint firstAttribute="width" constant="109" id="ljO-1s-h4i"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="jgG-Rr-YhB"/>
+                                <constraint firstAttribute="width" constant="150" id="ljO-1s-h4i"/>
                             </constraints>
                             <state key="normal" title="Reset Password"/>
                             <connections>
