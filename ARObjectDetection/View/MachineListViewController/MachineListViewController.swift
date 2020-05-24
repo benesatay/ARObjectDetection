@@ -16,19 +16,15 @@ class MachineListViewController: MachineData {
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.isHidden = false
-        
         machineInfoCollectionView.delegate = self
         machineInfoCollectionView.dataSource = self
-        
         DispatchQueue.main.async {
             self.machineInfoCollectionView.reloadData()
         }
-        
         setMachineData(onSuccess: {
             self.machineInfoCollectionView.reloadData()
             self.activityIndicator.isHidden = true
         })
-        
         let nib = UINib(nibName: "MachineCollectionViewCell", bundle: nil)
         machineInfoCollectionView.register(nib, forCellWithReuseIdentifier: "MachineCollectionViewCell")
     }
@@ -39,7 +35,6 @@ class MachineListViewController: MachineData {
         cell.serialNoHeader.text = NSLocalizedString("Serial No", comment: "")
         
         let machineViewModel = self.machineListViewModel.machineAtIndex(indexPath.row)
-        
         cell.typeLabel.text = machineViewModel.type
         cell.nameLabel.text = machineViewModel.name
         cell.serialNoLabel.text = machineViewModel.serialNo

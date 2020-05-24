@@ -11,17 +11,13 @@ import UIKit
 
 class MachineImageViewController: MachineData {
     
-    
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet weak var pageControl: UIPageControl!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         imageCollectionView.delegate = self
         imageCollectionView.dataSource = self
-        
         pageControl.numberOfPages = setImageUrlListCount()
-        
         let imageCollectionViewNib = UINib(nibName: "MachineImageCollectionViewCell", bundle: nil)
         imageCollectionView.register(imageCollectionViewNib, forCellWithReuseIdentifier: "MachineImageCollectionViewCell")
     }

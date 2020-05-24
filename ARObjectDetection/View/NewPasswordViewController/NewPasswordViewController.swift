@@ -34,10 +34,8 @@ class NewPasswordViewController: UIViewController {
     }
     
     func reAuthenticate(onSuccess: @escaping () -> Void) {
-        
         guard let oldPassword = oldPasswordTextField.text else { return }
         guard let newPassword = newPasswordTextField.text else { return }
-        
         let user = Auth.auth().currentUser
         guard let email = user?.email else { return }
         self.activityIndicator.isHidden = false

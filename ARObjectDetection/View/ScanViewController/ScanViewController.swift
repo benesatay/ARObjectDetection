@@ -12,7 +12,6 @@ import ARKit
 class ScanViewController: MachineData {
     
     var machineName: String = ""
-        
     var ARReferenceImageSet: Set<ARReferenceImage> = Set<ARReferenceImage>()
     
     let customButton = UIButton()
@@ -20,8 +19,21 @@ class ScanViewController: MachineData {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         navigationController?.isNavigationBarHidden = true
+        setupSceneView()
+        setCustomButton()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setupMachineData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        // Pause the view's session
+        sceneView.session.pause()
+    }
+    
+    func setupSceneView() {
         // Set the view's delegate
         sceneView.delegate = self
         // Show statistics such as fps and timing information
@@ -30,31 +42,11 @@ class ScanViewController: MachineData {
         let scene = SCNScene(named: "art.scnassets/scene.scn")!
         // Set the scene to the view
         sceneView.scene = scene
-        
-        setCustomButton()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        activityIndicator.isHidden = false
-        ARReferenceImageSet.removeAll()
-        setMachineData(onSuccess: {
-            DispatchQueue.main.async {
-                self.setMachineImageToARImageList(onSuccess: {
-                    DispatchQueue.main.async {
-                        self.setupConfiguration()
-                    }
-                })
-            }
-        })
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        // Pause the view's session
-        sceneView.session.pause()
     }
 }
 
 extension ScanViewController: ARSCNViewDelegate {
+    
     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
         let node = SCNNode()
         if let imageAnchor = anchor as? ARImageAnchor {
@@ -70,22 +62,42 @@ extension ScanViewController: ARSCNViewDelegate {
 
 extension ScanViewController {
     
-    func setMachineImageToARImageList(onSuccess: @escaping() -> Void) {
+    func setupMachineData() {
+        activityIndicator.isHidden = false
+        ARReferenceImageSet.removeAll()
+        setMachineData(onSuccess: {
+            DispatchQueue.main.async {
+                self.insertImageToARImageList(onSuccess: {
+                    DispatchQueue.main.async {
+                        self.setupConfiguration()
+                    }
+                })
+            }
+        })
+    }
+    
+    func insertImageToARImageList(onSuccess: @escaping() -> Void) {
         setMachineImages(onSuccess: { (image, name) in
-            let imageFromBundle = image
-            //2. Convert It To A CIImage
-            guard let imageToCIImage = CIImage(image: imageFromBundle),
-                //3. Then Convert The CIImage To A CGImage
-                let cgImage = self.convertCIImageToCGImage(inputImage: imageToCIImage) else { return }
-            //4. Create An ARReference Image (Remembering Physical Width Is In Metres)
-            let arImage = ARReferenceImage(cgImage, orientation: CGImagePropertyOrientation.up, physicalWidth: 0.2)
-            arImage.name = name
-            self.ARReferenceImageSet.insert(arImage)
-            onSuccess()
+            self.convertUIImagetoARReferenceImage(image: image) { (arImage) in
+                arImage.name = name
+                self.ARReferenceImageSet.insert(arImage)
+                onSuccess()
+            }
         }, onError: { (error) in
             self.setAlertWithAction(title: "Error", message: error)
         })
         self.activityIndicator.isHidden = true
+    }
+    
+    func convertUIImagetoARReferenceImage(image: UIImage, converted: @escaping (ARReferenceImage) -> Void) {
+        let imageFromBundle = image
+        //2. Convert It To A CIImage
+        guard let imageToCIImage = CIImage(image: imageFromBundle),
+            //3. Then Convert The CIImage To A CGImage
+            let cgImage = self.convertCIImageToCGImage(inputImage: imageToCIImage) else { return }
+        //4. Create An ARReference Image (Remembering Physical Width Is In Metres)
+        let arImage = ARReferenceImage(cgImage, orientation: CGImagePropertyOrientation.up, physicalWidth: 0.2)
+        converted(arImage)
     }
     
     func convertCIImageToCGImage(inputImage: CIImage) -> CGImage? {

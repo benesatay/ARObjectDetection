@@ -29,15 +29,11 @@ class ObjectDetailViewController: MachineData {
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.isHidden = false
-        
         imageCollectionView.delegate = self
         imageCollectionView.dataSource = self
-        
         objectDetailView.layer.cornerRadius = 10
-        
         setupMachineData()
         setupNavigationBarItems()
-        
         let imageCollectionViewNib = UINib(nibName: "MachineImageCollectionViewCell", bundle: nil)
         imageCollectionView.register(imageCollectionViewNib, forCellWithReuseIdentifier: "MachineImageCollectionViewCell")
     }

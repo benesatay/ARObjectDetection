@@ -28,6 +28,18 @@ class SignInViewController: UIViewController {
     }
     
     @IBAction func signInButton(_ sender: Any) {
+        signIn()
+    }
+    
+    @IBAction func signUpButton(_ sender: Any) {
+        signUp()
+    }
+    
+    @IBAction func resetPasswordButton(_ sender: Any) {
+        resetPassword()
+    }
+    
+    func signIn() {
         guard let email = emailTextField.text, let password = passwordTextField.text else {
             setAlertWithAction(title: "Warning", message: "Email or password can not be null!")
             return
@@ -39,12 +51,12 @@ class SignInViewController: UIViewController {
                 self.activityIndicator.isHidden = true
                 return
             }
-            self.signIn()
+            self.navigateToScanning()
             self.activityIndicator.isHidden = true
         }
     }
     
-    @IBAction func signUpButton(_ sender: Any) {
+    func signUp() {
         self.activityIndicator.isHidden = false
         guard let email = emailTextField.text, let password = passwordTextField.text else {
             setAlertWithAction(title: "Warning", message: "Email or password can not be null!" + "\n" + "Enter your email and password to top and click here!")
@@ -55,32 +67,9 @@ class SignInViewController: UIViewController {
                 self.setAlertWithAction(title: "Warning", message: error?.localizedDescription ?? "Error")
                 return
             }
-            self.signIn()
+            self.navigateToScanning()
         }
         self.activityIndicator.isHidden = true
-    }
-    
-    @IBAction func resetPasswordButton(_ sender: Any) {
-        resetPassword()
-    }
-    
-    func editTextFieldView() {
-        textFieldView.layer.cornerRadius = 5
-        textFieldView.layer.borderWidth = 1
-        textFieldView.layer.borderColor = UIColor.lightGray.cgColor
-    }
-    
-    func setupText() {
-        emailTextField.placeholder = NSLocalizedString("Email", comment: "")
-        passwordTextField.placeholder = NSLocalizedString("Password", comment: "")
-        signInLabel.text = NSLocalizedString("Sign In", comment: "")
-        signUpOutlet.setTitle(NSLocalizedString("Create an Account", comment: ""), for: .normal)
-        resetPasswordOutlet.setTitle(NSLocalizedString("Reset Password", comment: ""), for: .normal)
-    }
-    
-    func signIn() {
-        let customTabBarNavigationController = UINavigationController(rootViewController: CustomTabBarViewController())
-        UIApplication.shared.keyWindow?.rootViewController = customTabBarNavigationController
     }
     
     func resetPassword() {
@@ -94,6 +83,28 @@ class SignInViewController: UIViewController {
             }
             self.activityIndicator.isHidden = true
         }
+    }
+
+    func navigateToScanning() {
+        let customTabBarNavigationController = UINavigationController(rootViewController: CustomTabBarViewController())
+        UIApplication.shared.keyWindow?.rootViewController = customTabBarNavigationController
+    }
+}
+
+extension SignInViewController {
+    
+    func editTextFieldView() {
+        textFieldView.layer.cornerRadius = 5
+        textFieldView.layer.borderWidth = 1
+        textFieldView.layer.borderColor = UIColor.lightGray.cgColor
+    }
+    
+    func setupText() {
+        emailTextField.placeholder = NSLocalizedString("Email", comment: "")
+        passwordTextField.placeholder = NSLocalizedString("Password", comment: "")
+        signInLabel.text = NSLocalizedString("Sign In", comment: "")
+        signUpOutlet.setTitle(NSLocalizedString("Create an Account", comment: ""), for: .normal)
+        resetPasswordOutlet.setTitle(NSLocalizedString("Reset Password", comment: ""), for: .normal)
     }
 }
 

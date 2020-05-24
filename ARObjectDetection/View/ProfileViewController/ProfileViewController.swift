@@ -29,17 +29,14 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        
         setupTableView()
         setupSubview()
         setupLabelSubview()
         setupButtonSubview()
-        
         setupTableViewSectionsAndItems()
     }
     
     func setupTableViewSectionsAndItems() {
-        
         tableViewSections = [(NSLocalizedString("Help", comment: "")),
                              (NSLocalizedString("Preferred Language", comment: "")),
                              (NSLocalizedString("Change Password", comment: "")),
@@ -88,7 +85,6 @@ class ProfileViewController: UIViewController {
                 }
         }, onCancel: {
             self.tableView.reloadData()
-            
         })
     }
 }

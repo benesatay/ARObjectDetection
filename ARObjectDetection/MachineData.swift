@@ -11,7 +11,7 @@ import UIKit
 
 protocol MachineDataProtocol {
     func setMachineData(onSuccess: @escaping () -> Void)
-    
+
     func setMachineImageToCollectionView(indexPath: IndexPath, onSuccess: @escaping(UIImage) -> Void, onError: @escaping(String) -> Void)
     
     func setMachineImages(onSuccess: @escaping(UIImage, String) -> Void, onError: @escaping(String) -> Void)
@@ -67,7 +67,6 @@ class MachineData: UIViewController, MachineDataProtocol {
                                 onError(error?.localizedDescription ?? "Error")
                             }
                             let name = machineImageData.name
-
                             guard let image = image else { return }
                             onSuccess(image, name)
                         }

@@ -22,25 +22,19 @@ class CreatingViewController: MachineData {
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.isHidden = true
-        
         nameTextField.delegate = self
         typeTextField.delegate = self
         serialNoTextField.delegate = self
-        
         takenPhotoCollectionView.delegate = self
         takenPhotoCollectionView.dataSource = self
-        
-        setMachineData(onSuccess: {
-            print("data set")
-        })
-        
         setupTextField()
         setupNavigationItems()
         editCollectionViewStyle()
-        
+        setMachineData(onSuccess: {
+            print("data set")
+        })
         let nib = UINib(nibName: "TakenPhotoCollectionViewCell", bundle: nil)
         takenPhotoCollectionView.register(nib, forCellWithReuseIdentifier: "TakenPhotoCollectionViewCell")
-        
         DispatchQueue.main.async {
             self.takenPhotoCollectionView.reloadData()
         }

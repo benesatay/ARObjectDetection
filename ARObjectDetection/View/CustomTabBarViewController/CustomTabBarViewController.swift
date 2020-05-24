@@ -51,7 +51,4 @@ class CustomTabBarViewController: UITabBarController {
         let destination = CreatingViewController(nibName: "CreatingViewController", bundle: nil)
         navigationController?.pushViewController(destination, animated: true)
     }
-    
-    
-    
 }
