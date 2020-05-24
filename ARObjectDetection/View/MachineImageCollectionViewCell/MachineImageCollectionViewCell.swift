@@ -10,6 +10,7 @@ import UIKit
 
 class MachineImageCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var imageActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var machineImageView: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()

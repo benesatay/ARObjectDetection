@@ -20,17 +20,27 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bTT-vE-W1w">
                         <rect key="frame" x="0.0" y="0.0" width="240" height="300"/>
                     </imageView>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="HBT-dh-hZa">
+                        <rect key="frame" x="110" y="140" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="fU0-xr-Gvv"/>
+                            <constraint firstAttribute="width" constant="20" id="tO1-aw-tb7"/>
+                        </constraints>
+                    </activityIndicatorView>
                 </subviews>
             </view>
             <constraints>
+                <constraint firstItem="HBT-dh-hZa" firstAttribute="centerY" secondItem="bTT-vE-W1w" secondAttribute="centerY" id="2Ye-fZ-EEl"/>
                 <constraint firstItem="bTT-vE-W1w" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="6ti-sN-jTq"/>
                 <constraint firstItem="bTT-vE-W1w" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="WdE-6o-SGi"/>
                 <constraint firstAttribute="bottom" secondItem="bTT-vE-W1w" secondAttribute="bottom" id="aio-Sl-YdO"/>
                 <constraint firstAttribute="trailing" secondItem="bTT-vE-W1w" secondAttribute="trailing" id="hf2-bf-Ifd"/>
+                <constraint firstItem="HBT-dh-hZa" firstAttribute="centerX" secondItem="bTT-vE-W1w" secondAttribute="centerX" id="ifr-IZ-fzp"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="240" height="300"/>
             <connections>
+                <outlet property="imageActivityIndicator" destination="HBT-dh-hZa" id="YhD-XO-Q64"/>
                 <outlet property="machineImageView" destination="bTT-vE-W1w" id="45r-FC-THU"/>
             </connections>
             <point key="canvasLocation" x="166.66666666666669" y="141.29464285714286"/>

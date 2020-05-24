@@ -27,12 +27,14 @@ class MachineImageViewController: MachineData {
     }
     
     func setupCell(indexPath: IndexPath, to cell: MachineImageCollectionViewCell) {
+        cell.imageActivityIndicator.isHidden = false
         setMachineImageToCollectionView(indexPath: indexPath, onSuccess: { (image) in
             cell.machineImageView.image = image
             cell.machineImageView.contentMode = .scaleAspectFill
-            
+            cell.imageActivityIndicator.isHidden = true
         }, onError: { (error) in
             self.setAlertWithAction(title: "Error", message: error)
+            cell.imageActivityIndicator.isHidden = true
         })
     }
 }
