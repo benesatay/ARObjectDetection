@@ -35,6 +35,7 @@ class ObjectDetailViewController: MachineData {
         imageCollectionView.delegate = self
         imageCollectionView.dataSource = self
         objectDetailView.layer.cornerRadius = 10
+        imageCollectionView.layer.cornerRadius = 10
         setupMachineData()
         setupNavigationBarItems()
         setupSaveButton()
@@ -126,7 +127,6 @@ class ObjectDetailViewController: MachineData {
             self.setAlertWithAction(title: "Error", message: error)
             cell.imageActivityIndicator.isHidden = true
         })
-        cell.layer.cornerRadius = 10
         cell.machineImageView.contentMode = .scaleAspectFill
     }
 }
