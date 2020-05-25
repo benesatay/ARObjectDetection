@@ -203,10 +203,8 @@ extension ProfileViewController {
             backgroundColor: .clear,
             viewFrame: viewFrame, cornerRadius: 0)
         subviewDoneButton.addTarget(self, action: #selector(buttonAction(sender:)), for: .touchUpInside)
-
+        
     }
-    
-
     
     @objc func buttonAction(sender: UIButton!) {
         UIView.animate(withDuration: 0.3) {

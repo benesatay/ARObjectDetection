@@ -18,14 +18,11 @@ class MachineListViewController: MachineData {
         activityIndicator.isHidden = false
         machineInfoCollectionView.delegate = self
         machineInfoCollectionView.dataSource = self
- 
-       
-                  self.setMachineData(onSuccess: {
-                  self.machineInfoCollectionView.reloadData()
-                  self.activityIndicator.isHidden = true
-              })
         
-  
+        self.setMachineData(onSuccess: {
+            self.machineInfoCollectionView.reloadData()
+            self.activityIndicator.isHidden = true
+        })
         
         let nib = UINib(nibName: "MachineCollectionViewCell", bundle: nil)
         machineInfoCollectionView.register(nib, forCellWithReuseIdentifier: "MachineCollectionViewCell")
@@ -40,17 +37,14 @@ class MachineListViewController: MachineData {
         cell.typeLabel.text = machineViewModel.type
         cell.nameLabel.text = machineViewModel.name
         cell.serialNoLabel.text = machineViewModel.serialNo
-        
-        let destination = MachineImageViewController(nibName: "MachineImageViewController", bundle: nil)
-       
-        destination.machineImageData = machineViewModel
+        cell.layer.cornerRadius = 10
         
         let viewFrame = CGRect(x: 0, y: 0, width: cell.subView.frame.width, height: cell.subView.frame.height)
+        let destination = MachineImageViewController(nibName: "MachineImageViewController", bundle: nil)
+        destination.machineImageData = machineViewModel
         destination.view.frame = viewFrame
         cell.subView.addSubview(destination.view)
         addChild(destination)
-        
-        cell.layer.cornerRadius = 10
     }
 }
 

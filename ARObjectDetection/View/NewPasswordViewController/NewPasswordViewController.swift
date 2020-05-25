@@ -18,7 +18,6 @@ class NewPasswordViewController: UIViewController {
     override func viewDidLoad() {
         activityIndicator.isHidden = true
         super.viewDidLoad()
-        
         setupNavigationBarItems()
         editTextFieldView()
     }

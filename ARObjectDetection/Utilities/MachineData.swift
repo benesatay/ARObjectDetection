@@ -11,20 +11,20 @@ import UIKit
 
 protocol MachineDataProtocol {
     func setMachineData(onSuccess: @escaping () -> Void)
-
+    
     func setMachineImageToCollectionView(indexPath: IndexPath, onSuccess: @escaping(UIImage) -> Void, onError: @escaping(String) -> Void)
     
     func setMachineImages(onSuccess: @escaping(UIImage, String) -> Void, onError: @escaping(String) -> Void)
-
+    
     func setImageUrlListCount() -> Int
 }
 
 class MachineData: UIViewController, MachineDataProtocol {
-
+    
     var firebaseManager = FirebaseManager()
     var machineListViewModel: MachineListViewModel!
     var machineImageData: MachineViewModel?
-
+    
     func setMachineData(onSuccess: @escaping () -> Void) {
         firebaseManager.getMachineData(onSuccess: { machineinfo in
             self.machineListViewModel = MachineListViewModel(machineList: machineinfo)
@@ -38,11 +38,11 @@ class MachineData: UIViewController, MachineDataProtocol {
         let urlList = machineImageData.imageUrlList
         if let imageURL = URL(string: urlList[indexPath.row]) {
             firebaseManager.getImage(from: imageURL) { (image, error) in
-                    if error != nil {
-                        onError(error?.localizedDescription ?? "Error")
-                    }
-                    guard let image = image else { return }
-                    onSuccess(image)
+                if error != nil {
+                    onError(error?.localizedDescription ?? "Error")
+                }
+                guard let image = image else { return }
+                onSuccess(image)
             }
         }
     }
@@ -51,21 +51,18 @@ class MachineData: UIViewController, MachineDataProtocol {
         for index in 0..<machineListViewModel.numberOfRowsInSection() {
             let machineViewModel = self.machineListViewModel.machineAtIndex(index)
             machineImageData = machineViewModel
-            
             guard let machineImageData = machineImageData else { return }
             let urlListCount = machineImageData.imageUrlList.count
             for indexx in 0..<urlListCount {
                 let urlList = machineImageData.imageUrlList
                 if let imageURL = URL(string: urlList[indexx]) {
                     firebaseManager.getImage(from: imageURL) { (image, error) in
-                  
-                            if error != nil {
-                                onError(error?.localizedDescription ?? "Error")
-                            }
-                            let name = machineImageData.name
-                            guard let image = image else { return }
-                            onSuccess(image, name)
-                        
+                        if error != nil {
+                            onError(error?.localizedDescription ?? "Error")
+                        }
+                        let name = machineImageData.name
+                        guard let image = image else { return }
+                        onSuccess(image, name)
                     }
                 }
             }

@@ -155,8 +155,8 @@
 				4AA5E5B5246ED6E400580E0F /* Manager */,
 				4AA5E5B4246ED6DA00580E0F /* Model */,
 				4A1C91CD247838FE00E5E295 /* View */,
-				4A0376162479597400AA0200 /* MachineData.swift */,
 				4A1C91CE247839ED00E5E295 /* ViewModel */,
+				4A6C2920247C3C2900B99214 /* Utilities */,
 				4A663CD22472F7A100062405 /* Extensions */,
 				4A360CE8246B30AB00C1679E /* AppDelegate.swift */,
 				4A360CEA246B30AB00C1679E /* SceneDelegate.swift */,
@@ -212,6 +212,14 @@
 				4A50DA6C2476C980001C2446 /* String + Extensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		4A6C2920247C3C2900B99214 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				4A0376162479597400AA0200 /* MachineData.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		4A76E40F246B52A900EA4CD9 /* ScanViewController */ = {

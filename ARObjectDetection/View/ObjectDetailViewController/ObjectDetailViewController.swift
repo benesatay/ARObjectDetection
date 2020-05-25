@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 class ObjectDetailViewController: MachineData {
-        
+    
     var objectName: String = ""
     var machineViewModel: MachineViewModel!
     
@@ -39,28 +39,11 @@ class ObjectDetailViewController: MachineData {
         setupMachineData()
         setupNavigationBarItems()
         
-        setSaveButton()
-        setCancelButton()
+        setupSaveButton()
+        setupCancelButton()
         
         let imageCollectionViewNib = UINib(nibName: "MachineImageCollectionViewCell", bundle: nil)
         imageCollectionView.register(imageCollectionViewNib, forCellWithReuseIdentifier: "MachineImageCollectionViewCell")
-    }
-    
-    
-    func setupMachineData() {
-        setMachineData(onSuccess: {
-            for index in 0..<self.machineListViewModel.machineList.count {
-                if self.objectName == self.machineListViewModel.machineAtIndex(index).name {
-                    self.machineViewModel = self.machineListViewModel.machineAtIndex(index)
-                    self.machineImageData = self.machineViewModel
-                }
-            }
-            self.setLabelText(type: self.machineViewModel.type, name: self.machineViewModel.name, serialNo: self.machineViewModel.serialNo)
-            self.imageCollectionView.reloadData()
-            self.pageControl.numberOfPages = self.setImageUrlListCount()
-            self.activityIndicator.isHidden = true
-            print("details were downloaded")
-        })
     }
     
     @objc func trashTapped() {
@@ -90,26 +73,45 @@ class ObjectDetailViewController: MachineData {
         showCustomButtons()
     }
     
-    func setupNavigationBarItems() {
-        let backButton = UIBarButtonItem()
-        backButton.title = NSLocalizedString("Back", comment: "")
-        backButton.tintColor = .black
-        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
-        
-        let trashButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashTapped))
-        let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
-        trashButton.tintColor = .black
-        editButton.tintColor = .black
-        navigationItem.rightBarButtonItems = [trashButton, editButton]
+    @objc func saveButtonAction() {
+        guard let machineName = objectNameTextField.text,
+            let serialNo = objectSerialNoTextField.text,
+            let type = objectTypeTextField.text else { return }
+        let machineFolderName = machineViewModel.name
+        setAlertWithManyActions(
+            title: "Warning",
+            message: "Do you realy want to update?",
+            onOK: {
+                self.firebaseManager.update(machineFolderName: machineFolderName, serialNo: serialNo, type: type)
+                self.setupLabelText(type: type, name: machineName, serialNo: serialNo)
+                self.hideCustomButtons()
+                self.closeUserInteraction()
+        }, onCancel: {
+            self.dismiss(animated: true, completion: nil)
+            self.hideCustomButtons()
+            self.closeUserInteraction()
+        })
     }
     
-    func setLabelText(type: String, name: String, serialNo: String) {
-        typeHeader.text = NSLocalizedString("Type", comment: "")
-        nameHeader.text = NSLocalizedString("Name", comment: "")
-        serialNoHeader.text = NSLocalizedString("Serial No", comment: "")
-        objectTypeTextField.text = type
-        objectNameTextField.text = name
-        objectSerialNoTextField.text = serialNo
+    @objc func cancelButtonAction() {
+        hideCustomButtons()
+        closeUserInteraction()
+    }
+    
+    func setupMachineData() {
+        setMachineData(onSuccess: {
+            for index in 0..<self.machineListViewModel.machineList.count {
+                if self.objectName == self.machineListViewModel.machineAtIndex(index).name {
+                    self.machineViewModel = self.machineListViewModel.machineAtIndex(index)
+                    self.machineImageData = self.machineViewModel
+                }
+            }
+            self.setupLabelText(type: self.machineViewModel.type, name: self.machineViewModel.name, serialNo: self.machineViewModel.serialNo)
+            self.imageCollectionView.reloadData()
+            self.pageControl.numberOfPages = self.setImageUrlListCount()
+            self.activityIndicator.isHidden = true
+            print("details were downloaded")
+        })
     }
     
     func setupCell(indexPath: IndexPath, to cell: MachineImageCollectionViewCell) {
@@ -143,6 +145,7 @@ extension ObjectDetailViewController: UICollectionViewDelegate, UICollectionView
 }
 
 extension ObjectDetailViewController: UIScrollViewDelegate {
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         pageControl.currentPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
     }
@@ -150,7 +153,29 @@ extension ObjectDetailViewController: UIScrollViewDelegate {
 
 extension ObjectDetailViewController {
     
-    func setSaveButton() {
+    func setupNavigationBarItems() {
+        let backButton = UIBarButtonItem()
+        backButton.title = NSLocalizedString("Back", comment: "")
+        backButton.tintColor = .black
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+        
+        let trashButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashTapped))
+        let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
+        trashButton.tintColor = .black
+        editButton.tintColor = .black
+        navigationItem.rightBarButtonItems = [trashButton, editButton]
+    }
+    
+    func setupLabelText(type: String, name: String, serialNo: String) {
+        typeHeader.text = NSLocalizedString("Type", comment: "")
+        nameHeader.text = NSLocalizedString("Name", comment: "")
+        serialNoHeader.text = NSLocalizedString("Serial No", comment: "")
+        objectTypeTextField.text = type
+        objectNameTextField.text = name
+        objectSerialNoTextField.text = serialNo
+    }
+    
+    func setupSaveButton() {
         let buttonOriginY = topBarHeight + objectDetailView.frame.origin.y + objectDetailView.frame.height + 20
         let viewFrame = CGRect(x: 20, y: buttonOriginY, width: UIScreen.main.bounds.width-40, height: 50)
         setCustomButton(customButton: saveButton, superview: self.view, title: "Save", titleColor: .white, backgroundColor: .systemBlue, viewFrame: viewFrame, cornerRadius: 25)
@@ -158,37 +183,17 @@ extension ObjectDetailViewController {
         saveButton.isHidden = true
     }
     
-    func setCancelButton() {
+    
+    func setupCancelButton() {
         let buttonOriginY = topBarHeight + objectDetailView.frame.origin.y + objectDetailView.frame.height + 90
         let viewFrame = CGRect(x: 20, y: buttonOriginY, width: UIScreen.main.bounds.width-40, height: 50)
         setCustomButton(customButton: cancelButton, superview: self.view, title: "Cancel", titleColor: .white, backgroundColor: .systemBlue, viewFrame: viewFrame, cornerRadius: 25)
         cancelButton.addTarget(self, action: #selector(cancelButtonAction), for: .touchUpInside)
         cancelButton.isHidden = true
     }
-    
-    @objc func saveButtonAction() {
-        guard let machineName = objectNameTextField.text,
-            let serialNo = objectSerialNoTextField.text,
-            let type = objectTypeTextField.text else { return }
-        let machineFolderName = machineViewModel.name
-        setAlertWithManyActions(
-            title: "Warning",
-            message: "Do you realy want to update?",
-            onOK: {
-                self.firebaseManager.update(machineFolderName: machineFolderName, serialNo: serialNo, type: type)
-                self.setLabelText(type: type, name: machineName, serialNo: serialNo)
-                self.hideCustomButtons()
-                self.closeUserInteraction()
-        }, onCancel: {
-            self.dismiss(animated: true, completion: nil)
-            self.hideCustomButtons()
-            self.closeUserInteraction()
-        })
-    }
-    @objc func cancelButtonAction() {
-        hideCustomButtons()
-        closeUserInteraction()
-    }
+}
+
+extension ObjectDetailViewController {
     
     func openUserInteraction() {
         objectSerialNoTextField.isUserInteractionEnabled = true

@@ -15,13 +15,13 @@ class ScanViewController: MachineData {
     var ARReferenceImageSet: Set<ARReferenceImage> = Set<ARReferenceImage>()
     
     let infoButton = UIButton()
+    
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         setupSceneView()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,7 +67,6 @@ extension ScanViewController: ARSCNViewDelegate {
 extension ScanViewController {
     
     func setupMachineData() {
-        
         ARReferenceImageSet.removeAll()
         setMachineData(onSuccess: {
             DispatchQueue.main.async {

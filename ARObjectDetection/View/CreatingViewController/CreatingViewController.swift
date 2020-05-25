@@ -9,7 +9,7 @@
 import UIKit
 
 class CreatingViewController: MachineData {
- 
+    
     var takenPhotoList : Array<UIImage> = []
     var imageUrlArray = [String]()
     
@@ -40,19 +40,6 @@ class CreatingViewController: MachineData {
         }
     }
     
-    func setupNavigationItems() {
-        let backButton = UIBarButtonItem()
-        backButton.title = NSLocalizedString("Back", comment: "")
-        backButton.tintColor = .black
-        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
-        let cameraButton = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(openCamera))
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonClicked))
-        doneButton.title = NSLocalizedString("Done", comment: "")
-        cameraButton.tintColor = .black
-        doneButton.tintColor = .black
-        navigationItem.rightBarButtonItems = [doneButton, cameraButton]
-    }
-
     @objc func doneButtonClicked() {
         let machineName = (nameTextField.text ?? "noname")
         self.imageUrlArray.removeAll()
@@ -147,6 +134,19 @@ extension CreatingViewController: UICollectionViewDelegate, UICollectionViewData
 
 extension CreatingViewController: UITextFieldDelegate {
     
+    func setupNavigationItems() {
+        let backButton = UIBarButtonItem()
+        backButton.title = NSLocalizedString("Back", comment: "")
+        backButton.tintColor = .black
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+        let cameraButton = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(openCamera))
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonClicked))
+        doneButton.title = NSLocalizedString("Done", comment: "")
+        cameraButton.tintColor = .black
+        doneButton.tintColor = .black
+        navigationItem.rightBarButtonItems = [doneButton, cameraButton]
+    }
+    
     func setupTextField() {
         editTextField(textField: nameTextField, placeholder: "Name")
         editTextField(textField: typeTextField, placeholder: "Type")
@@ -163,7 +163,6 @@ extension CreatingViewController: UITextFieldDelegate {
         underline.backgroundColor = UIColor.lightGray.cgColor
         textField.borderStyle = UITextField.BorderStyle.none
         textField.layer.addSublayer(underline)
-        
     }
 }
 

@@ -84,7 +84,7 @@ class SignInViewController: UIViewController {
             self.activityIndicator.isHidden = true
         }
     }
-
+    
     func navigateToScanning() {
         let customTabBarNavigationController = UINavigationController(rootViewController: CustomTabBarViewController())
         UIApplication.shared.keyWindow?.rootViewController = customTabBarNavigationController

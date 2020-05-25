@@ -34,7 +34,6 @@ class MachineImageViewController: MachineData {
             cell.imageActivityIndicator.isHidden = true
         })
         cell.machineImageView.contentMode = .scaleAspectFill
-    
     }
 }
 
@@ -63,6 +62,7 @@ extension MachineImageViewController: UICollectionViewDelegate, UICollectionView
 }
 
 extension MachineImageViewController: UIScrollViewDelegate {
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         pageControl.currentPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
     }

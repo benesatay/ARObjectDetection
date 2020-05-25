@@ -13,7 +13,7 @@ struct MachineModel: Codable {
     let name: String?
     var type: String?
     var serialNo: String?
-
+    
     init (imageUrlList: [String], name: String, type: String, serialNo: String) {
         self.imageUrlList = imageUrlList
         self.name = name
