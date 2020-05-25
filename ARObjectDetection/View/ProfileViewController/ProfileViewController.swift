@@ -22,7 +22,7 @@ class ProfileViewController: UIViewController {
     let signOutButton = UIButton()
     let subView = UIView()
     let subViewLabel = UILabel()
-    let subviewButton = UIButton()
+    let subviewDoneButton = UIButton()
     
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
@@ -195,22 +195,18 @@ extension ProfileViewController {
     
     func setupButtonSubview() {
         let viewFrame = CGRect(x: UIScreen.main.bounds.width-58, y: 0, width: 50, height: 50)
-        customButton(
-            customButton: subviewButton,
+        setCustomButton(
+            customButton: subviewDoneButton,
             superview: subView,
             title: NSLocalizedString("Done", comment: ""),
-            color: .white,
-            viewFrame: viewFrame)
+            titleColor: .white,
+            backgroundColor: .clear,
+            viewFrame: viewFrame, cornerRadius: 0)
+        subviewDoneButton.addTarget(self, action: #selector(buttonAction(sender:)), for: .touchUpInside)
+
     }
     
-    @objc func customButton(customButton: UIButton, superview: UIView, title: String, color: UIColor, viewFrame: CGRect) {
-        customButton.frame = viewFrame
-        customButton.addTarget(self, action: #selector(buttonAction(sender:)), for: .touchUpInside)
-        customButton.setTitle(title, for: .normal)
-        customButton.setTitleColor(color, for: .normal)
-        superview.addSubview(subviewButton)
-        customButton.didMoveToSuperview()
-    }
+
     
     @objc func buttonAction(sender: UIButton!) {
         UIView.animate(withDuration: 0.3) {

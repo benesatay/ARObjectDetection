@@ -17,6 +17,16 @@ extension UIViewController {
         }
     }
     
+    func setCustomButton(customButton: UIButton, superview: UIView, title: String, titleColor: UIColor, backgroundColor: UIColor, viewFrame: CGRect, cornerRadius: CGFloat) {
+        customButton.frame = viewFrame
+        customButton.setTitle(title, for: .normal)
+        customButton.setTitleColor(titleColor, for: .normal)
+        customButton.backgroundColor = backgroundColor
+        customButton.layer.cornerRadius = cornerRadius
+        superview.addSubview(customButton)
+        customButton.didMoveToSuperview()
+    }
+    
     func setAlertWithAction(title: String, message: String) {
         let alert = UIAlertController(
             title: NSLocalizedString(title, comment: ""),

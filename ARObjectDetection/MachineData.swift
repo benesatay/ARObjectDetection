@@ -27,10 +27,9 @@ class MachineData: UIViewController, MachineDataProtocol {
 
     func setMachineData(onSuccess: @escaping () -> Void) {
         firebaseManager.getMachineData(onSuccess: { machineinfo in
-            DispatchQueue.main.async {
-                self.machineListViewModel = MachineListViewModel(machineList: machineinfo)
-                onSuccess()
-            }
+            self.machineListViewModel = MachineListViewModel(machineList: machineinfo)
+            onSuccess()
+            
         })
     }
     
@@ -39,14 +38,11 @@ class MachineData: UIViewController, MachineDataProtocol {
         let urlList = machineImageData.imageUrlList
         if let imageURL = URL(string: urlList[indexPath.row]) {
             firebaseManager.getImage(from: imageURL) { (image, error) in
-                DispatchQueue.main.async {
                     if error != nil {
                         onError(error?.localizedDescription ?? "Error")
                     }
                     guard let image = image else { return }
                     onSuccess(image)
-                    
-                }
             }
         }
     }
@@ -62,14 +58,14 @@ class MachineData: UIViewController, MachineDataProtocol {
                 let urlList = machineImageData.imageUrlList
                 if let imageURL = URL(string: urlList[indexx]) {
                     firebaseManager.getImage(from: imageURL) { (image, error) in
-                        DispatchQueue.main.async {
+                  
                             if error != nil {
                                 onError(error?.localizedDescription ?? "Error")
                             }
                             let name = machineImageData.name
                             guard let image = image else { return }
                             onSuccess(image, name)
-                        }
+                        
                     }
                 }
             }

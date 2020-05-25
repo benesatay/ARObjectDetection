@@ -91,8 +91,38 @@ class FirebaseManager {
         }).resume()
     }
     
+    func update(
+        machineFolderName: String,
+        serialNo: String,
+        type: String) {
+        
+        guard let user = Auth.auth().currentUser else { return }
+        let firebaseDatabaseRef = Database.database().reference().child("users/\(user.uid)")
+ 
+        let childUpdates = [
+                            "serialNo": serialNo,
+                            "type": type] as [String : Any]
+        
+        firebaseDatabaseRef.child(machineFolderName).updateChildValues(childUpdates)
+    }
+    
     func removeSelectedItemFromFirebase(childName: String, url: String, onSuccess: @escaping () -> Void, onError: @escaping (String) -> Void) {
         guard let user = Auth.auth().currentUser else { return }
+        removeSelectedItemImageFromStorage(url: url, onSuccess: {
+            let firebaseDatabaseRef = Database.database().reference(withPath: "users/\(user.uid)")
+             firebaseDatabaseRef.child(childName).removeValue { (error, DatabaseReference) in
+                 if error != nil {
+                     onError(error?.localizedDescription ?? "Error")
+                 }
+                onSuccess()
+             }
+        }, onError: { (error) in
+            onError(error)
+        })
+ 
+    }
+    
+    func removeSelectedItemImageFromStorage(url: String, onSuccess: @escaping () -> Void, onError: @escaping (String) -> Void) {
         let storage = Storage.storage()
         let storageRef = storage.reference(forURL: url)
         //Removes image from storage
@@ -101,12 +131,6 @@ class FirebaseManager {
                 onError(error?.localizedDescription ?? "Error")
                 return
             }
-             let firebaseDatabaseRef = Database.database().reference(withPath: "users/\(user.uid)")
-             firebaseDatabaseRef.child(childName).removeValue { (error, DatabaseReference) in
-                 if error != nil {
-                     onError(error?.localizedDescription ?? "Error")
-                 }
-             }
             onSuccess()
         }
     }

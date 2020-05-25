@@ -18,13 +18,15 @@ class MachineListViewController: MachineData {
         activityIndicator.isHidden = false
         machineInfoCollectionView.delegate = self
         machineInfoCollectionView.dataSource = self
-        DispatchQueue.main.async {
-            self.machineInfoCollectionView.reloadData()
-        }
-        setMachineData(onSuccess: {
-            self.machineInfoCollectionView.reloadData()
-            self.activityIndicator.isHidden = true
-        })
+ 
+       
+                  self.setMachineData(onSuccess: {
+                  self.machineInfoCollectionView.reloadData()
+                  self.activityIndicator.isHidden = true
+              })
+        
+  
+        
         let nib = UINib(nibName: "MachineCollectionViewCell", bundle: nil)
         machineInfoCollectionView.register(nib, forCellWithReuseIdentifier: "MachineCollectionViewCell")
     }
@@ -40,7 +42,9 @@ class MachineListViewController: MachineData {
         cell.serialNoLabel.text = machineViewModel.serialNo
         
         let destination = MachineImageViewController(nibName: "MachineImageViewController", bundle: nil)
+       
         destination.machineImageData = machineViewModel
+        
         let viewFrame = CGRect(x: 0, y: 0, width: cell.subView.frame.width, height: cell.subView.frame.height)
         destination.view.frame = viewFrame
         cell.subView.addSubview(destination.view)

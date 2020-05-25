@@ -14,18 +14,20 @@ class ScanViewController: MachineData {
     var machineName: String = ""
     var ARReferenceImageSet: Set<ARReferenceImage> = Set<ARReferenceImage>()
     
-    let customButton = UIButton()
+    let infoButton = UIButton()
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         setupSceneView()
-        setCustomButton()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setupMachineData()
+        DispatchQueue.global().async {
+            self.setupMachineData()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -52,8 +54,10 @@ extension ScanViewController: ARSCNViewDelegate {
         if let imageAnchor = anchor as? ARImageAnchor {
             let referenceImage = imageAnchor.referenceImage
             DispatchQueue.main.async {
+                
+                self.setInfoButton()
                 self.machineName = referenceImage.name ?? ""
-                self.customButton.isHidden = false
+                self.infoButton.isHidden = false
             }
         }
         return node
@@ -63,7 +67,7 @@ extension ScanViewController: ARSCNViewDelegate {
 extension ScanViewController {
     
     func setupMachineData() {
-        activityIndicator.isHidden = false
+        
         ARReferenceImageSet.removeAll()
         setMachineData(onSuccess: {
             DispatchQueue.main.async {
@@ -117,24 +121,23 @@ extension ScanViewController {
 
 extension ScanViewController {
     
-    func setCustomButton() {
-        customButton.frame = CGRect(x: UIScreen.main.bounds.width - 70, y: 150, width: 50, height: 50)
-        customButton.layer.borderColor = UIColor.systemBlue.cgColor
-        customButton.layer.cornerRadius = 25
-        customButton.layer.borderWidth = 2
+    func setInfoButton() {
+        let viewFrame = CGRect(x: UIScreen.main.bounds.width - 70, y: 150, width: 50, height: 50)
+        infoButton.layer.borderColor = UIColor.systemBlue.cgColor
+        infoButton.layer.borderWidth = 2
         if #available(iOS 13.0, *) {
-            customButton.setImage(UIImage(systemName: "info"), for: .normal)
+            infoButton.setImage(UIImage(systemName: "info"), for: .normal)
         }
-        customButton.addTarget(self, action: #selector(buttonAction(sender:)), for: .touchUpInside)
-        self.view.addSubview(customButton)
-        customButton.isHidden = true
+        setCustomButton(customButton: infoButton, superview: self.view, title: "", titleColor: .clear, backgroundColor: .clear, viewFrame: viewFrame, cornerRadius: 25)
+        infoButton.addTarget(self, action: #selector(buttonAction(sender:)), for: .touchUpInside)
+        infoButton.isHidden = true
     }
     
     @objc func buttonAction(sender: UIButton!) {
         print("Button tapped")
         passToDetail(onSuccess: { (viewController) in
             self.navigationController?.pushViewController(viewController, animated: true)
-            self.customButton.isHidden = true
+            self.infoButton.isHidden = true
         })
     }
     
