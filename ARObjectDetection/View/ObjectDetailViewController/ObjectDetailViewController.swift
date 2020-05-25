@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 class ObjectDetailViewController: MachineData {
-    
+        
     var objectName: String = ""
     var machineViewModel: MachineViewModel!
     
@@ -32,18 +32,23 @@ class ObjectDetailViewController: MachineData {
     @IBOutlet weak var objectDetailView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityIndicator.isHidden = false
         imageCollectionView.delegate = self
         imageCollectionView.dataSource = self
         objectDetailView.layer.cornerRadius = 10
         setupMachineData()
         setupNavigationBarItems()
-        
         setupSaveButton()
         setupCancelButton()
         
+        notifyFromKeyboard()
+        
         let imageCollectionViewNib = UINib(nibName: "MachineImageCollectionViewCell", bundle: nil)
         imageCollectionView.register(imageCollectionViewNib, forCellWithReuseIdentifier: "MachineImageCollectionViewCell")
+    }
+    
+    func notifyFromKeyboard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc func trashTapped() {
@@ -74,8 +79,7 @@ class ObjectDetailViewController: MachineData {
     }
     
     @objc func saveButtonAction() {
-        guard let machineName = objectNameTextField.text,
-            let serialNo = objectSerialNoTextField.text,
+        guard let serialNo = objectSerialNoTextField.text,
             let type = objectTypeTextField.text else { return }
         let machineFolderName = machineViewModel.name
         setAlertWithManyActions(
@@ -83,17 +87,15 @@ class ObjectDetailViewController: MachineData {
             message: "Do you realy want to update?",
             onOK: {
                 self.firebaseManager.update(machineFolderName: machineFolderName, serialNo: serialNo, type: type)
-                self.setupLabelText(type: type, name: machineName, serialNo: serialNo)
                 self.hideCustomButtons()
                 self.closeUserInteraction()
         }, onCancel: {
             self.dismiss(animated: true, completion: nil)
-            self.hideCustomButtons()
-            self.closeUserInteraction()
         })
     }
     
     @objc func cancelButtonAction() {
+        self.setupLabelText(type: self.machineViewModel.type, name: self.machineViewModel.name, serialNo: self.machineViewModel.serialNo)
         hideCustomButtons()
         closeUserInteraction()
     }
@@ -118,9 +120,11 @@ class ObjectDetailViewController: MachineData {
         setMachineImageToCollectionView(indexPath: indexPath, onSuccess: { (image) in
             DispatchQueue.main.async {
                 cell.machineImageView.image = image
+                cell.imageActivityIndicator.isHidden = true
             }
         }, onError: { (error) in
             self.setAlertWithAction(title: "Error", message: error)
+            cell.imageActivityIndicator.isHidden = true
         })
         cell.layer.cornerRadius = 10
         cell.machineImageView.contentMode = .scaleAspectFill

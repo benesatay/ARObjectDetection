@@ -20,6 +20,7 @@ class NewPasswordViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationBarItems()
         editTextFieldView()
+        
     }
     
     @IBAction func saveButton(_ sender: Any) {

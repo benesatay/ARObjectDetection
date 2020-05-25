@@ -9,6 +9,7 @@
 import UIKit
 
 extension UIViewController {
+    
     var topBarHeight: CGFloat {
         if #available(iOS 13.0, *) {
             return (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0.0) + (self.navigationController?.navigationBar.frame.height ?? 0.0)
@@ -16,6 +17,9 @@ extension UIViewController {
             return (UIApplication.shared.statusBarFrame.size.height) + (self.navigationController?.navigationBar.frame.size.height ?? 0.0)
         }
     }
+}
+
+extension UIViewController {
     
     func setCustomButton(customButton: UIButton, superview: UIView, title: String, titleColor: UIColor, backgroundColor: UIColor, viewFrame: CGRect, cornerRadius: CGFloat) {
         customButton.frame = viewFrame
@@ -26,6 +30,9 @@ extension UIViewController {
         superview.addSubview(customButton)
         customButton.didMoveToSuperview()
     }
+}
+
+extension UIViewController {
     
     func setAlertWithAction(title: String, message: String) {
         let alert = UIAlertController(
@@ -71,5 +78,33 @@ extension UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now()+1) {
             alert.dismiss(animated: true, completion: nil)
         }
-    }    
+    }
+}
+
+extension UIViewController {
+    
+    // hide keyboard when the user touches outside keyboard
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    // user presses return key
+    @objc func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
 }

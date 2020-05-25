@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 class SignInViewController: UIViewController {
-    
+        
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var signInLabel: UILabel!
     @IBOutlet weak var emailTextField: UITextField!
@@ -25,6 +25,12 @@ class SignInViewController: UIViewController {
         super.viewDidLoad()
         editTextFieldView()
         setupText()
+        notifyFromKeyboard()
+    }
+    
+    func notifyFromKeyboard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @IBAction func signInButton(_ sender: Any) {
@@ -108,15 +114,3 @@ extension SignInViewController {
     }
 }
 
-extension SignInViewController {
-    // hide keyboard when the user touches outside keyboard
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
-    // user presses return key
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-}

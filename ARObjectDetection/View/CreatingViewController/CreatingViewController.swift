@@ -9,7 +9,7 @@
 import UIKit
 
 class CreatingViewController: MachineData {
-    
+        
     var takenPhotoList : Array<UIImage> = []
     var imageUrlArray = [String]()
     
@@ -30,6 +30,9 @@ class CreatingViewController: MachineData {
         setupTextField()
         setupNavigationItems()
         editCollectionViewStyle()
+        
+        notifyFromKeyboard()
+        
         setMachineData(onSuccess: {
             print("data set")
         })
@@ -38,6 +41,11 @@ class CreatingViewController: MachineData {
         DispatchQueue.main.async {
             self.takenPhotoCollectionView.reloadData()
         }
+    }
+    
+    func notifyFromKeyboard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc func doneButtonClicked() {
@@ -163,18 +171,5 @@ extension CreatingViewController: UITextFieldDelegate {
         underline.backgroundColor = UIColor.lightGray.cgColor
         textField.borderStyle = UITextField.BorderStyle.none
         textField.layer.addSublayer(underline)
-    }
-}
-
-extension CreatingViewController {
-    // hide keyboard when the user touches outside keyboard
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
-    // user presses return key
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
     }
 }

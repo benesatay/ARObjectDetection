@@ -23,7 +23,7 @@ class ScanViewController: MachineData {
         navigationController?.isNavigationBarHidden = true
         setupSceneView()
     }
-    
+ 
     override func viewWillAppear(_ animated: Bool) {
         DispatchQueue.global().async {
             self.setupMachineData()
