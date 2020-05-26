@@ -28,7 +28,6 @@ class ObjectDetailViewController: MachineData {
     @IBOutlet weak var objectNameTextField: UITextField!
     @IBOutlet weak var objectSerialNoTextField: UITextField!
     
-    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet weak var objectDetailView: UIView!
     override func viewDidLoad() {
@@ -49,8 +48,8 @@ class ObjectDetailViewController: MachineData {
     }
     
     func notifyFromKeyboard() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShowInScrollView), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideInScrollView), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc func trashTapped() {
@@ -218,25 +217,5 @@ extension ObjectDetailViewController {
     func hideCustomButtons() {
         cancelButton.isHidden = true
         saveButton.isHidden = true
-    }
-}
-
-extension ObjectDetailViewController {
-    
-    @objc func keyboardWillShowInScrollView(notification:NSNotification){
-
-        let userInfo = notification.userInfo!
-        var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
-        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
-
-        var contentInset:UIEdgeInsets = scrollView.contentInset
-        contentInset.bottom = keyboardFrame.size.height
-        scrollView.contentInset = contentInset
-    }
-
-    @objc func keyboardWillHideInScrollView(notification:NSNotification){
-
-        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
-        scrollView.contentInset = contentInset
     }
 }
