@@ -19,7 +19,9 @@ class FirebaseManager {
         onError: @escaping (String) -> Void) {
         let storage = Storage.storage()
         let storageReference = storage.reference()
-        let mediaFolder = storageReference.child("media")
+        
+        guard let user = Auth.auth().currentUser else { return }
+        let mediaFolder = storageReference.child("media/\(user.uid)")
         if let data = image.jpegData(compressionQuality: 0.0) {
             let machineFolder = mediaFolder.child(machineFolderName)
             let imageReference = machineFolder.child(imageName)

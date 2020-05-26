@@ -24,7 +24,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="4Gr-dU-pUA">
-                    <rect key="frame" x="20" y="64" width="374" height="305"/>
+                    <rect key="frame" x="8" y="64" width="398" height="305"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="305" id="kqZ-vf-U6c"/>
@@ -73,10 +73,10 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="5X3-xt-Mb7" secondAttribute="trailing" constant="20" id="1vf-jk-iGF"/>
                 <constraint firstItem="9CI-9T-rNW" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="394-nT-5qo"/>
                 <constraint firstItem="5X3-xt-Mb7" firstAttribute="top" secondItem="4Gr-dU-pUA" secondAttribute="bottom" constant="20" id="4FU-0I-Gy6"/>
-                <constraint firstItem="4Gr-dU-pUA" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="4M1-dx-TBY"/>
+                <constraint firstItem="4Gr-dU-pUA" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="4M1-dx-TBY"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="eAv-Mw-1hu" secondAttribute="trailing" constant="20" id="P2p-cA-HFz"/>
                 <constraint firstItem="eAv-Mw-1hu" firstAttribute="top" secondItem="5X3-xt-Mb7" secondAttribute="bottom" constant="20" id="QeR-c7-JIH"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="4Gr-dU-pUA" secondAttribute="trailing" constant="20" id="V1U-PY-6vn"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="4Gr-dU-pUA" secondAttribute="trailing" constant="8" id="V1U-PY-6vn"/>
                 <constraint firstItem="DNw-46-X7r" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="YRd-QT-pOd"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="9CI-9T-rNW" secondAttribute="trailing" constant="20" id="ZZ7-jh-QfE"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="eAv-Mw-1hu" secondAttribute="trailing" constant="20" id="eq4-BN-KbW"/>

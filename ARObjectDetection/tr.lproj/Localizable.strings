@@ -40,3 +40,4 @@
 "Are you sure that you want to delete this item?" = "Bu öğeyi silmek istediğinizden emin misin?";
 "Are you sure that you want to update?" = "Güncellemek istediğinizden emin misiniz?";
 "Images and the name are not updatable!" = "Resimler ve isim güncellenemez!";
+"Name/Image can not be null!" = "İsim/Resim boş bırakılamaz!";

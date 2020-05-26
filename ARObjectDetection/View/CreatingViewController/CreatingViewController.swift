@@ -49,17 +49,21 @@ class CreatingViewController: MachineData {
     }
     
     @objc func doneButtonClicked() {
-        let machineName = (nameTextField.text ?? "noname")
-        self.imageUrlArray.removeAll()
-        activityIndicator.isHidden = false
-        if machineListViewModel.machineList.contains(where: { $0.name == machineName }) {
-            setAlertWithAction(title: "Warning", message: "This name was used before, please enter a different name!")
-            activityIndicator.isHidden = true
+        guard let machineName = nameTextField.text else { return }
+        if machineName == "" || takenPhotoList.isEmpty {
+            setAlertWithAction(title: "Warning", message: "Name/Image can not be null!")
         } else {
-            saveMachineData(machineName: machineName, onSuccess: {
-                self.setAlertWithoutAction(title: "Success", message: "Added")
-                self.activityIndicator.isHidden = true
-            })
+            self.imageUrlArray.removeAll()
+            activityIndicator.isHidden = false
+            if machineListViewModel.machineList.contains(where: { $0.name == machineName }) {
+                setAlertWithAction(title: "Warning", message: "This name was used before, please enter a different name!")
+                activityIndicator.isHidden = true
+            } else {
+                saveMachineData(machineName: machineName, onSuccess: {
+                    self.setAlertWithoutAction(title: "Success", message: "Added")
+                    self.activityIndicator.isHidden = true
+                })
+            }
         }
     }
     
