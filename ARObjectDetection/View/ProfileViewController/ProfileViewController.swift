@@ -21,7 +21,7 @@ class ProfileViewController: UIViewController {
     
     let signOutButton = UIButton()
     let subView = UIView()
-    let subViewLabel = UILabel()
+    let subViewTextView = UITextView()
     let subviewDoneButton = UIButton()
     
     @IBOutlet weak var tableView: UITableView!
@@ -137,9 +137,18 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                                message: "You should change the phone language to change the app language!")
             tableView.reloadData()
         } else {
-            subViewLabel.text = itemText
+            if itemText == NSLocalizedString("Instruction", comment: "") {
+                subViewTextView.isEditable = false
+                subViewTextView.text = NSLocalizedString("InstructionText", comment: "")
+            } else if itemText == NSLocalizedString("About App", comment: "") {
+                subViewTextView.text = NSLocalizedString("AboutAppText", comment: "")
+            } else if itemText == NSLocalizedString("About Us", comment: "") {
+                subViewTextView.text = NSLocalizedString("AboutUsText", comment: "")
+            } else if itemText == NSLocalizedString("Contact", comment: "") {
+                subViewTextView.text = NSLocalizedString("ContactText", comment: "")
+            }
             UIView.animate(withDuration: 0.3) {
-                self.subView.transform = CGAffineTransform(translationX: 0, y: -UIScreen.main.bounds.height/2)
+                self.subView.transform = CGAffineTransform(translationX: 0, y: -(UIScreen.main.bounds.height - self.topBarHeight))
             }
         }
     }
@@ -178,19 +187,22 @@ extension ProfileViewController {
         viewFrame.origin.y = UIScreen.main.bounds.height
         subView.frame = viewFrame
         subView.backgroundColor = .black
-        subView.alpha = 0.7
+        subView.alpha = 0.8
         subView.layer.cornerRadius = 10
         view.addSubview(subView)
         subView.didMoveToSuperview()
     }
     
     func setupLabelSubview() {
-        subViewLabel.frame = CGRect(x: 20, y: 0, width: UIScreen.main.bounds.width-66, height: 50)
-        //subViewLabel.textAlignment = .center
-        subViewLabel.font = .systemFont(ofSize: 17)
-        subViewLabel.textColor = .white
-        subView.addSubview(subViewLabel)
-        subViewLabel.didMoveToSuperview()
+        subViewTextView.frame = CGRect(x: 20,
+                                       y: 0,
+                                       width: UIScreen.main.bounds.width-66,
+                                       height: subView.frame.height - UITabBar.appearance().frame.height)
+        subViewTextView.font = .systemFont(ofSize: 17)
+        subViewTextView.backgroundColor = .clear
+        subViewTextView.textColor = .white
+        subView.addSubview(subViewTextView)
+        subViewTextView.didMoveToSuperview()
     }
     
     func setupButtonSubview() {
@@ -208,7 +220,7 @@ extension ProfileViewController {
     
     @objc func buttonAction(sender: UIButton!) {
         UIView.animate(withDuration: 0.3) {
-            self.subView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height/2)
+            self.subView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height - self.topBarHeight)
         }
         tableView.reloadData()
     }

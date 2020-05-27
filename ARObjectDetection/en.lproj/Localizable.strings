@@ -42,3 +42,61 @@
 "Are you sure that you want to update?" = "Are you sure that you want to update?";
 "Images and the name are not updatable!" = "Images and the name are not updatable!";
 "Name/Image can not be null!" = "Name/Image can not be null!";
+
+
+"InstructionText" =
+"Instruction
+
+1 — In the Sign-in page, if the user does not have an account, user have to create an account. For the first time, The user enters the email and the password to create an account, and the user clicks to create an account button and be directed to the app. If the user has an account so the user clicks to the right arrow button and be directed to the app.
+
+2 — The user can reset the password with a reset password mail that be sent. The mail will be sent to the user's email after clicking the reset password button.
+
+3 — Inside of the app, There are 3 pages in the tab bar. The left item is directed to the scanning page. The scanning page is also the home page. On this page, the users scan the objects that be saved by themselves before. Each user gets only own data. An info button is shown on the screen when the user scans the object that was saved. The user can pass to the machine detail page with this button.
+
+4 — The middle item that is in the tab bar is directed to the machine list. On the list page, machines are listed with their data. Users can click on each machine and then they are directed to the machine detail page.
+
+5 — In the machine detail page, users can view machine data like images, name, and other details. There are 2 buttons on the right of the navigation bar of this page. Users can update some machine data with The Edit button.Users also can delete the machine data with the Trash button.
+
+6 — In the navigation bar of each page that is in the tab bar, there is a plus button. This plus button is directed to the object adding page. On this page, Users can add an object. The Object has to have at least 1 image and name.
+
+7 — In the object adding page, there are 2 buttons on the right of the navigation bar. The image can be taken and added with the Camera button, also the object can be saved with the Done button.
+
+8 — The right item that is in the tab bar is directed to the user profile page. On this page, the user can reach detail about the app and use change the password and sign out options.
+
+9 — On the password changing page, user can change or reset the password.
+
+10 — The user can sign out with the sign out button.";
+
+
+"AboutAppText" =
+"About App
+
+The name of this application is Machine Scanner. Machine Scanner is an object recognition application developed for IOS. Thanks to the application, users can keep the information of their industrial or personal machines in confidentiality and access them quickly when necessary. This application was developed in May 2020 for the graduation project of Yaşar University Software Engineering department.";
+
+
+"AboutUsText" =
+"About Us
+
+Bahadır Enes ATAY
+Software Engineer
+benesatay@gmail.com
+
+Erim ŞAŞAL
+Software Engineer
+erimsasal96@gmail.com
+
+Muhammed Çağrı DEMİR
+Software Engineer
+cagriidemirr@gmail.com
+
+Oğuzhan ASLAN
+Software Engineer
+oguzhanaslann@gmail.com";
+
+
+"ContactText" =
+"CONTACT
+
+For any questions, comments or feedback you can email us:
+
+machinescanner2020@gmail.com";

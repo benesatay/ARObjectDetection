@@ -41,3 +41,59 @@
 "Are you sure that you want to update?" = "Güncellemek istediğinizden emin misiniz?";
 "Images and the name are not updatable!" = "Resimler ve isim güncellenemez!";
 "Name/Image can not be null!" = "İsim/Resim boş bırakılamaz!";
+
+"InstructionText" =
+"Instruction
+
+1 — Oturum Aç sayfasında, kullanıcının bir hesabı yoksa kullanıcının bir hesap oluşturması gerekir. Kullanıcı ilk kez bir hesap oluşturmak için e-postayı ve şifreyi girer ve kullanıcı bir hesap oluştur düğmesini tıklayıp uygulamaya yönlendirilir. Kullanıcının bir hesabı varsa, kullanıcı sağ ok düğmesini tıklar ve uygulamaya yönlendirilir.
+
+2 — Kullanıcı, gönderilen bir şifre sıfırlama postasıyla şifreyi sıfırlayabilir. Şifreyi sıfırla düğmesini tıkladıktan sonra posta kullanıcının e-postasına gönderilir.
+
+3 — Uygulamanın içinde, sekme çubuğunda 3 sayfa var. Soldaki öğe tarama sayfasına yönlendirilir. Tarama sayfası aynı zamanda ana sayfadır. Bu sayfada, kullanıcılar daha önce kendileri tarafından kaydedilen nesneleri tararlar. Her kullanıcı yalnızca kendi verilerini alır. Kullanıcı kaydedilen nesneyi taradığında ekranda bir bilgi düğmesi gösterilir. Kullanıcı bu düğme ile “makine detayı” sayfasına geçebilir.
+
+4 — Sekme çubuğundaki orta öğe makine listesine yönlendirilir. Liste sayfasında makineler verileriyle birlikte listelenir. Kullanıcılar her bir makineye tıklayabilir ve daha sonra makine detay sayfasına yönlendirilir.
+
+5 — Makine ayrıntıları sayfasında, kullanıcılar görüntüler, ad ve diğer ayrıntılar gibi makine verilerini görüntüleyebilir. Bu sayfanın gezinme çubuğunun sağında 2 düğme vardır. Kullanıcılar Düzenle düğmesiyle bazı makine verilerini güncelleyebilir. Kullanıcılar ayrıca Çöp Kutusu düğmesi ile makine verilerini silebilir.
+
+6 — Sekme çubuğundaki her sayfanın gezinme çubuğunda bir artı düğmesi bulunur. Bu artı düğmesi nesne ekleme sayfasına yönlendirilir. Bu sayfada Kullanıcılar bir nesne ekleyebilir. Nesnenin en az 1 resmi ve adı olmalıdır.
+
+7 — “Nesne ekleme” sayfasında, gezinme çubuğunun sağında 2 düğme bulunur. Görüntü alınabilir ve Kamera düğmesi ile eklenebilir, ayrıca nesne Bitti düğmesi ile kaydedilebilir.
+
+8 — Sekme çubuğunda bulunan doğru öğe kullanıcı profili sayfasına yönlendirilir. Bu sayfada, kullanıcı uygulama hakkında ayrıntılara ulaşabilir ve Şifreyi Değiştir ve Oturumu Kapat seçeneklerini kullanabilir.
+
+9 — Şifre Değiştirme sayfasında, kullanıcı şifreyi değiştirebilir veya sıfırlayabilir
+
+10 — Kullanıcı oturumu kapat düğmesiyle oturumu kapatabilir.";
+
+"AboutAppText" =
+"Uygulama Hakkında
+
+Bu uygulamanın ismi Machine Scanner'dır. Machine Scanner IOS için geliştirilen bir nesne tanıma uygulamasıdır. Uygulama sayesinde kullanıcılar endüstriyel ya da kişisel makinelerinin bilgilerini gizlilik içinde saklayabilir, gerektiğinde hızlıca ulaşabilirler. Bu uygulama Mayıs 2020'de Yaşar Üniversitesi Yazılım Mühendisliği bölümünün bitirme projesi için geliştirilmiştir.";
+
+
+"AboutUsText" =
+"HAkkımızda
+
+Bahadır Enes ATAY
+Yazılım Mühendisi
+benesatay@gmail.com
+
+Erim ŞAŞAL
+Yazılım Mühendisi
+erimsasal96@gmail.com
+
+Muhammed Çağrı DEMİR
+Yazılım Mühendisi
+cagriidemirr@gmail.com
+
+Oğuzhan ASLAN
+Yazılım Mühendisi
+oguzhanaslann@gmail.com";
+
+
+"ContactText" =
+"İletişim
+
+Herhangi bir soru, görüş veya geri bildiriminiz için bize e-posta ile ulaşabilirsiniz:
+
+machinescanner2020@gmail.com";
