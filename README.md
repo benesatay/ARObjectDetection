@@ -14,8 +14,17 @@
 
 ###### Other details about the usage of the app are shown in UI's that be below. 
 
+###### Add Object
 ![](UIs/add.PNG)
+
+###### Object List
 ![](UIs/list.PNG)
+
+###### Object Detail
 ![](UIs/detail.PNG)
+
+###### Profile
 ![](UIs/profile.PNG)
+
+###### Password operations
 ![](UIs/changepassword.PNG)
