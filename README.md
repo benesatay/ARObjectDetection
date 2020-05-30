@@ -1,10 +1,11 @@
 # ARObjectDetection
 
+###### This is a graduation project.
 ###### This app is used to save an object and its information. In this project, the aim is to scan and retrieve object data quickly. 
 
 ###### The user adds image/images and other information of the object and these data are saved in the Firebase database. 
 
-## ARKit technology is used to capture the object. 
+*** ARKit technology is used to capture the object. ***
  
  ![](UIs/signin.PNG)
  
