@@ -64,10 +64,10 @@ class FirebaseManager {
             if snapshot.childrenCount > 0 {
                 for machineData in snapshot.children.allObjects as! [DataSnapshot] {
                     if let machineObject = machineData.value as? [String:Any],
-                        let url = machineObject["imageUrlList"] as? [NSString],
-                        let name = machineObject["machineName"] as? NSString,
-                        let type = machineObject["type"] as? NSString,
-                        let serialNo = machineObject["serialNo"] as? NSString {
+                       let url = machineObject["imageUrlList"] as? [NSString],
+                       let name = machineObject["machineName"] as? NSString,
+                       let type = machineObject["type"] as? NSString,
+                       let serialNo = machineObject["serialNo"] as? NSString {
                         let imageUrlArray = url as [String]
                         let machineName = name as String
                         let machineType = type as String
